@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: green;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: black;
+}
+
+.navbar{
+    background-color: red;
+}
