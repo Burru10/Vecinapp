@@ -5,11 +5,26 @@
     color: green;
 }
 
+.Logo img{
+    width: 100px;
+    height: 100px;
+}
+
 body{
     font-family: 'Roboto', sans-serif;
     background-color: black;
 }
 
 .navbar{
-    background-color: red;
+    background-color: white;
+}
+
+.nav-item{
+    justify-content: space-around;
+    padding: 0;
+}
+
+.active {
+    font-weight: bold;
+    color: yellowgreen !important;
 }
