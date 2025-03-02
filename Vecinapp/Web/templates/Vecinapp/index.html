@@ -1,5 +1,111 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Index</h2>
+    <div class="background-image">
+        <div class="overlay"></div>
+        <img src="{% static 'Vecinapp/img/fondo.jpg' %}" alt="">
+        <div class="welcome-text">
+            <h1 class="text-center">Vecinapp</h1>
+            <p class="text-center">La aplicación donde ayudar es tan fácil como pedirlo</p>
+        </div>
+    </div>
+
+    <div class="container text-center how-it-works mt-5 mb-5">
+        <h1>¿Cómo funciona Vecinapp?</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <i class="bi bi-people" style="font-size: 3rem;"></i>
+                <p>Conéctate con vecinos</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-pencil-square" style="font-size: 3rem;"></i>
+                <p>Publica una solicitud</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-search" style="font-size: 3rem;"></i>
+                <p>Encuentra ayuda</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-hand-thumbs-up" style="font-size: 3rem;"></i>
+                <p>Recibe apoyo o colabora</p>
+            </div>
+        </div>
+    </div>
+    
+
+    <!--<div class="container mt-5">
+        <h2 class="text-center">Explora por Categoría</h2>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <img src="{% static 'Vecinapp/img/fondo.jpg' %}" class="img-fluid">
+                <h5>Reparaciones</h5>
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'Vecinapp/img/pasear_perro.jpeg' %}" class="img-fluid">
+                <h5>Cuidado de Mascotas</h5>
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'Vecinapp/img/fondo.jpg' %}" class="img-fluid">
+                <h5>Compras</h5>
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'Vecinapp/img/fondo.jpg' %}" class="img-fluid">
+                <h5>Cuidado de Mayores</h5>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4">¿Qué dicen nuestros usuarios?</h2>
+        <div class="row valoration gy-4">
+            
+            <div class="col-md-6">
+                <div class="testimonial p-4">
+                    <p class="testimonial-text">"Gracias a Vecinapp conseguí ayuda para arreglar mi bicicleta en solo 10 minutos. ¡Increíble comunidad!"</p>
+                    <h5 class="testimonial-author">— Carlos M.</h5>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="testimonial p-4">
+                    <p class="testimonial-text">"Mi vecina me ayudó a cuidar a mi mascota mientras estaba de viaje. ¡Una app que realmente conecta!"</p>
+                    <h5 class="testimonial-author">— Ana G.</h5>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="testimonial p-4">
+                    <p class="testimonial-text">"Publicar una solicitud fue facilísimo. En unas horas, alguien ya me estaba ayudando a cambiar una tubería en casa."</p>
+                    <h5 class="testimonial-author">— Pedro S.</h5>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="testimonial p-4">
+                    <p class="testimonial-text">"Pensé que solo recibiría ayuda, pero terminé haciendo nuevos amigos mientras colaboraba con mi comunidad."</p>
+                    <h5 class="testimonial-author">— Laura R.</h5>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div class="container  mt-5 mb-5">
+        <div class="row community align-items-center">
+            
+            <div class="col-md-6 text-center">
+                <img src="{% static 'Vecinapp/img/comunidad.jpg' %}" class="img-fluid rounded" alt="Comunidad Vecinapp">
+            </div>
+    
+            <div class="col-md-6 text-center">
+                <h2 class="mb-3">Únete a la comunidad</h2>
+                <p class="lead">Vecinapp está aquí para ayudarte. Publica una solicitud o ayuda a tus vecinos.  
+                Conecta con personas cercanas y haz del barrio un lugar mejor.</p>
+                <a href="{% url 'index' %}" class="btn btn-lg">Regístrate Gratis</a>
+            </div>
+        </div>
+    </div>
+    
+    
+    
 {% endblock %}
