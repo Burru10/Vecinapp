@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import RegistroForm
 
 from django.contrib.auth.forms import AuthenticationForm
+
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 
@@ -24,24 +27,6 @@ def registro(request):
 
     return render(request, "registro/registro.html", {"form": form})
 
-
-'''class VRegistro(View):
-    def get(self, request):
-        form = UserCreationForm()
-        return render(request, "registro/registro.html", {"form": form})
-
-    def post(self, request):
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            usuario = form.save()
-            login(request, usuario)
-            return redirect('index')
-        else:
-            for msg in form.error_messages:
-                messages.error(request, form.error_messages[msg])
-
-            return render(request, "registro/registro.html", {"form": form})'''
         
 def Cerrar_sesion(request):
     logout(request)
@@ -63,3 +48,24 @@ def user_login(request):
             messages.error(request, "Información incorrecta")
     form = AuthenticationForm()
     return render(request, "login/login.html", {"form": form})
+
+
+#Impelementación de recuperar contraseña
+
+class MiPasswordResetView(PasswordResetView):
+    template_name = "recuperar_contra/password_reset_form.html"
+    email_template_name = "recuperar_contra/password_reset_email.html"       # El cuerpo del correo
+    subject_template_name = "recuperar_contra/password_reset_subject.txt"    # El asunto del correo
+    success_url = reverse_lazy("password_reset_done")
+
+class MiPasswordResetDoneView(PasswordResetDoneView):
+    template_name = "recuperar_contra/password_reset_done.html"
+
+class MiPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "recuperar_contra/password_reset_confirm.html"
+    success_url = reverse_lazy("password_reset_complete")
+
+class MiPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = "recuperar_contra/password_reset_complete.html"
+
+
