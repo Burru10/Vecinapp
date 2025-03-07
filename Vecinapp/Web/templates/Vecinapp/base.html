@@ -49,7 +49,7 @@
                     </li>
                     <li class="nav-item">
                         {% if user.is_authenticated %}
-                            <a class="nav-link" href="">Hola {{ user.username }}</a>
+                            <a class="nav-link" href="">Hola {{ user.first_name }}</a>
                         {% else %}
                             <a class="nav-link" href="{% url 'autenticacion' %}">Regístrate</a>
                         {% endif %}
@@ -89,7 +89,7 @@
                 <!-- Sección: Contacto -->
                 <div class="footer-section">
                     <h5>Contacto</h5>
-                    <p><i class="fas fa-home"></i> 123 Calle Principal, Ciudad</p>
+                    <p><i class="fas fa-home"></i> M-515, km 1, 800, 28223 Pozuelo de Alarcón, Madrid</p>
                     <p><i class="fas fa-envelope"></i> contacto@misitio.com</p>
                     <p><i class="fas fa-phone"></i> +123 456 7890</p>
                 </div>

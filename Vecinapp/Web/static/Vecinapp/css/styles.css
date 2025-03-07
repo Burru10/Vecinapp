@@ -205,3 +205,11 @@ body{
     background-color: rgb(39, 196, 196);
     color: white;
 }
+
+/*CONTACTO*/
+.contenedorFormulario{
+    width: 50%;
+    margin: 10px auto;
+    padding: 10px 0px;
+    text-align: center;
+}

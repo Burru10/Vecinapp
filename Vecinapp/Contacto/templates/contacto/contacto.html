@@ -1,0 +1,35 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+    <h2 style="margin-top: 125px;">Contacto</h2>
+
+    {% if user.is_authenticated %}
+
+    <div class="contenedorFormulario">
+
+        {% if "valido" in request.GET %}
+
+            <p>Información enviada correctamente. Gracias!</p>
+
+        {% endif %}
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table style="margin: 20px auto; text-align: start;">
+                {{formulario_contacto.as_table}}
+            </table>
+            <input type="submit" value="Enviar" class="btn btn-primary" style="width: 125px;">
+        </form>
+       
+    </div>
+
+    {% else %}
+
+    <div class="contenedorFormulario">
+        <p>Para poder enviar un mensaje, primero debes iniciar sesión.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+    </div>
+    
+    {% endif %}
+
+{% endblock %}

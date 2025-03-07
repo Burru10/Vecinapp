@@ -4,15 +4,27 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container" style="margin-top: 140px;">
+<div class="container" style="margin-top: 150px;">
     <h2 class="text-center">Iniciar sesión</h2>
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-bottom: 75px;">
             <form method="POST">
                 {% csrf_token %}
                 {{form|crispy}}
-                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </div>
             </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <a href="">Olvidaste tu contraseña?</a>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center">
+                <p>No tienes cuenta?</p>&nbsp;<a href="{% url 'autenticacion' %}">Regístrate</a>
+            </div>
         </div>
     </div>
 </div>
