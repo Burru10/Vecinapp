@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib import messages
-from .forms import RegistroForm
+from .forms import RegistroForm, FormularioLogin
+
 
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -34,19 +35,12 @@ def Cerrar_sesion(request):
 
 def user_login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = FormularioLogin(request, data=request.POST)
         if form.is_valid():
-            nombre_usuario = form.cleaned_data.get("username")
-            contra = form.cleaned_data.get("password")
-            usuario = authenticate(username=nombre_usuario, password=contra)
-            if usuario is not None:
-                login(request, usuario)
-                return redirect('index')
-            else:
-                messages.error(request, "Usuario o contraseña incorrectos")
-        else:
-            messages.error(request, "Información incorrecta")
-    form = AuthenticationForm()
+            login(request, form.get_user())
+            return redirect('index')
+    else:
+        form = FormularioLogin()
     return render(request, "login/login.html", {"form": form})
 
 

@@ -1,7 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import PerfilUsuario
+
+from django.contrib.auth import authenticate
+
 
 class RegistroForm(UserCreationForm):
     first_name = forms.CharField(label="Nombre", max_length=30, required=True)
@@ -19,6 +22,13 @@ class RegistroForm(UserCreationForm):
                   'provincia', 'localidad', 'codigo_postal', 'direccion', 'numero',
                   'password1', 'password2']
     
+    #Comprueba que no se registre un correo que ya está en uso
+    def clean_email(self):
+        email = self.cleaned_data.get("email").lower()
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("El correo ya está en uso")
+        return email
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.first_name = self.cleaned_data["first_name"]
@@ -36,3 +46,13 @@ class RegistroForm(UserCreationForm):
                 numero=self.cleaned_data['numero']
             )
         return user
+    
+
+
+class FormularioLogin(AuthenticationForm):
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        if username and password and not authenticate(self.request, username=username, password=password):
+            raise forms.ValidationError("Usuario o contraseña incorrectos.")
+        return super().clean()
