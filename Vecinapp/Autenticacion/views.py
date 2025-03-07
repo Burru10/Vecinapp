@@ -3,9 +3,6 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import RegistroForm, FormularioLogin
 
-
-from django.contrib.auth.forms import AuthenticationForm
-
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 

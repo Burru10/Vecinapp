@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import FormularioContacto
 from django.core.mail import EmailMessage
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -12,12 +12,16 @@ def contacto(request):
         formulario_contacto=FormularioContacto(data=request.POST)
         if formulario_contacto.is_valid():
             nombre = request.POST.get("nombre")
-            email = request.user.email
+            email = request.POST.get("email")
             mensaje = request.POST.get("mensaje")
 
-            email = EmailMessage("Mensaje desde la app de vecinapp",
+            if email != request.user.email:
+                messages.error(request, "El email no coincide con el del usuario")
+                return render(request, "Contacto/contacto.html", {'formulario_contacto':formulario_contacto})
+
+            email = EmailMessage("Nuevo mensaje de contacto - Vecinapp",
             "El usuario con nombre {} con la dirección de correo {} escribe lo siguiente:\n\n{}".format(nombre, email, mensaje),
-            request.user.email, ["vecinappoficial@gmail.com"], reply_to=[email])
+            "", ["vecinappoficial@gmail.com"], reply_to=[email])
 
             try:
                 email.send()
