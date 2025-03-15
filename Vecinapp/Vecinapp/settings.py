@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Contacto',
     'crispy_forms',
     'crispy_bootstrap5',
+    'Comunidad',
 ]
 
 MIDDLEWARE = [
