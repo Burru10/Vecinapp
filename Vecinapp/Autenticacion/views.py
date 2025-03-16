@@ -35,7 +35,7 @@ def user_login(request):
         form = FormularioLogin(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('index')
+            return redirect('comunidad')
     else:
         form = FormularioLogin()
     return render(request, "login/login.html", {"form": form})

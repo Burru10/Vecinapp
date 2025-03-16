@@ -25,4 +25,6 @@ urlpatterns = [
     path('autenticacion/', include('Autenticacion.urls')),
     
     path('contacto/', include('Contacto.urls')),
+
+    path('comunidad/', include('Comunidad.urls')),
 ]

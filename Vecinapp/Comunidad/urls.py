@@ -1,6 +1,7 @@
 from django.urls import path
-from Comunidad import views
+from .views import comunidad, crear_comunidad
 
 urlpatterns = [
-    path('', views.comunidad, name="comunidad"),
+    path('', comunidad, name="comunidad"),
+    path('crear/', crear_comunidad, name="crear_comunidad"),
 ]

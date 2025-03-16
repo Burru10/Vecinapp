@@ -1,5 +1,17 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Solicitudes</h2>
+<div class="container text-center vh-100" style="padding-top: 130px;">
+    <h2>Bienvenido a Vecinapp</h2>
+    
+    <div class="mt-4">
+        <a href="{% url 'crear_comunidad' %}" class="btn btn-primary btn-lg">Crear Comunidad</a>
+        <a href="{% url 'comunidad' %}" class="btn btn-primary btn-lg">Ingresar en una Comunidad</a>
+    </div>
+
+</div>
+
+
+
+</div>
 {% endblock %}

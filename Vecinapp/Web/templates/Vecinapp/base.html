@@ -27,7 +27,7 @@
             <div class="navbar-collapse collapse" id="collapseNavbar">
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
-                    <a class="nav-link {% if request.path == '/comunidad' %}active{% endif %}" href="{% url 'comunidad' %}">Comunidad</a>
+                    <a class="nav-link {% if request.path == '/comunidad/' %}active{% endif %}" href="{% url 'comunidad' %}">Comunidad</a>
                     {% else %}
                         
                     {% endif %}

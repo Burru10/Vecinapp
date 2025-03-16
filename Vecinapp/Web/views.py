@@ -8,8 +8,5 @@ def index(request):
 def servicios(request):
     return render(request, "Vecinapp/servicios.html")
 
-def comunidad(request):
-    return render(request, "Vecinapp/comunidad.html")
-
 def sobre_nosotros(request):
     return render(request, "Vecinapp/sobre-nosotros.html")
