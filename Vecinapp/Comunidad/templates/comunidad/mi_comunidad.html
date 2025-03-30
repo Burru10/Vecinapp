@@ -1,0 +1,153 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="container" style="padding-top: 130px;">
+    <a class="text-start" href="{% url 'comunidad' %}" style="text-decoration: none; color: rgb(39, 196, 196);"><i
+            class="bi bi-arrow-left"></i> Volver atrás</a>
+    <h1 class="text-center">Bienvenido a {{ comunidad.nombre }}</h1>
+    <h3 class="mb-4 text-center">Tareas disponibles:</h3>
+</div>
+<!-- Botón arriba a la derecha -->
+<div class="container options mb-4">
+    <form method="GET">
+        <div class="row align-items-center">
+            <!-- Izquierda: Filtro por categoría -->
+            <div class="col text-start">
+                <label for="categoria" class="me-2">Filtrar por categoría:</label>
+                <select name="categoria" id="categoria" class="form-select d-inline-block w-auto"
+                    onchange="this.form.submit()">
+                    <option value="">Todas</option>
+                    {% for cat in categorias %}
+                    <option value="{{ cat.id }}" {% if request.GET.categoria == cat.id|stringformat:"s" %}selected{% endif %}>
+                        {{ cat.nombre }}
+                    </option>                    
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Derecha: Botón para añadir tarea -->
+            <div class="col text-end">
+                <button type="button" class="btn btn-primary" onclick="mostrarFormulario()">+ Añadir Tarea</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="container tasks">
+    {% if publicaciones %}
+    <div class="row justify-content-center">
+        {% for pub in publicaciones %}
+        <!-- Tarjeta -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card p-3" onclick="mostrarDetalle('{{ pub.id }}')">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pub.categoria }}</h5>
+                    <p class="card-text">Descripción: {{ pub.descripcion }}</p>
+                    <span class="badge-estado 
+                {% if pub.estado == 'abierta' %}estado-abierta
+                {% elif pub.estado == 'en progreso' %}estado-en_progreso
+                {% elif pub.estado == 'completada' %}estado-finalizada
+                {% endif %}">
+                        {{ pub.estado|capfirst }}
+                    </span>
+                    <p class="autor">
+                        Publicado por {{ pub.usuario.username }}<br>
+                        {{ pub.fecha_publicacion|date:"d/m/Y H:i" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Para mostrar más en profundidad los detalles de la tarea -->
+        <div class="modal-overlay" id="modal-{{ pub.id }}">
+            <div class="modal-detalle">
+                <span class="cerrar" onclick="cerrarDetalle('{{ pub.id }}')">&times;</span>
+                <h4>{{ pub.categoria }}</h4>
+                <p><strong>Descripción:</strong> {{ pub.descripcion }}</p>
+                <p><strong>Estado:</strong> {{ pub.estado|capfirst }}</p>
+                <p><strong>Publicado por:</strong> {{ pub.usuario.username }}</p>
+                <p><strong>Fecha:</strong> {{ pub.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+                <br>
+                {% if pub.estado == 'en progreso' %}
+                    <p><strong>Realizada por:</strong> {{ request.user.username }}</p>
+                {% endif %}
+
+
+                {% if pub.estado == 'abierta' %}
+                <form method="POST" action="{% url 'realizar_tarea' pub.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm mt-3">Realizar tarea</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No hay tareas en esta comunidad por ahora.</p>
+    {% endif %}
+</div>
+
+
+<div class="fab-menu">
+    <a href="">💬 Mensajes</a>
+    <a href="">🔔 Notificaciones</a>
+    <a href="">📋 Mis tareas</a>
+</div>
+
+
+<!-- Fondo oscuro y formulario centrado -->
+<div id="fondo-modal">
+    <div id="formulario-tarea">
+        <span class="cerrar" onclick="cerrarFormulario()">&times;</span>
+        <h3 class="mb-4">Nueva Tarea</h3>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="form-group mb-3 text-start">
+                {{ form.categoria.label_tag }}
+                {{ form.categoria }}
+                {{ form.categoria.errors }}
+            </div>
+            <div class="form-group mb-3 text-start">
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+                {{ form.descripcion.errors }}
+            </div>
+            <div class="form-group mb-4 text-start">
+                {{ form.estado.label_tag }}
+                {{ form.estado }}
+                {{ form.estado.errors }}
+            </div>
+            <button type="submit" class="btn btn-primary">Crear tarea</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function mostrarFormulario() {
+        document.getElementById("fondo-modal").style.display = "block";
+    }
+
+    function cerrarFormulario() {
+        document.getElementById("fondo-modal").style.display = "none";
+    }
+
+
+    function mostrarDetalle(id) {
+        document.getElementById("modal-" + id).classList.add("activo");
+    }
+
+    function cerrarDetalle(id) {
+        document.getElementById("modal-" + id).classList.remove("activo");
+    }
+</script>
+
+{% endblock %}

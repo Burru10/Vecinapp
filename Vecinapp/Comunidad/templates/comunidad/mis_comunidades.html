@@ -1,0 +1,24 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center" style="padding-top: 130px;">
+    <h1>Mis Comunidades</h1>
+    <p>Selecciona la comunidad a la que deseas ingresar:</p>
+
+
+</div>
+
+<div class="container listado-comunidades">
+    <ul>
+        {% for comunidad in comunidades %}
+        <li>
+            <a href="{% url 'mi_comunidad' comunidad.id %}">
+                {{ comunidad.nombre }}
+            </a>
+        </li><hr>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

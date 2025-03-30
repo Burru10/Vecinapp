@@ -1,5 +1,80 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Sobre nosotros</h2>
+<div class="container" style="padding-top: 130px;">
+    <h1 class="text-center mb-4">Sobre Nosotros</h1>
+
+    <section class="mb-5 mt-5">
+        <h2>¿Quiénes Somos?</h2>
+        <p>
+            En <strong>Vecinapp</strong>, somos un equipo comprometido con la transformación digital de las comunidades de vecinos. Nuestro objetivo es facilitar la comunicación, gestión y convivencia entre los residentes, creando una plataforma intuitiva, segura y eficiente.
+        </p>
+        <p>
+            La idea de Vecinapp surge de la necesidad de mejorar la organización en comunidades residenciales, eliminando las barreras de comunicación y optimizando la administración de recursos. Creemos en el poder de la tecnología para conectar a las personas y hacer más accesible la gestión vecinal.
+        </p>
+    </section>
+
+    <section class="mb-5">
+        <h2>Nuestro Objetivo</h2>
+        <p>
+            Nuestra misión es proporcionar una herramienta integral que permita a los vecinos gestionar sus comunidades de manera eficiente, fomentando una convivencia armoniosa y transparente.  
+        </p>
+        <ul>
+            <li><strong>Facilitar la comunicación:</strong> Permitir una comunicación fluida entre vecinos, administradores y proveedores de servicios.</li>
+            <li><strong>Optimizar la gestión:</strong> Dar herramientas a los administradores para organizar gastos, incidencias y normativas.</li>
+            <li><strong>Seguridad y privacidad:</strong> Garantizar que cada comunidad tenga un espacio seguro y exclusivo.</li>
+            <li><strong>Accesibilidad:</strong> Crear una plataforma fácil de usar para personas de todas las edades.</li>
+        </ul>
+    </section>
+
+    <section class="mb-5">
+        <h2>Nuestros Valores</h2>
+        <p>
+            Nos regimos por valores fundamentales que guían cada aspecto del desarrollo de Vecinapp:
+        </p>
+        <ul>
+            <li><strong>Innovación:</strong> Apostamos por la tecnología para mejorar la convivencia y administración de comunidades.</li>
+            <li><strong>Compromiso:</strong> Trabajamos con dedicación para ofrecer una plataforma estable y eficiente.</li>
+            <li><strong>Transparencia:</strong> Creemos en la comunicación abierta y accesible entre todos los usuarios.</li>
+            <li><strong>Seguridad:</strong> Protegemos la información de nuestros usuarios con los más altos estándares de seguridad.</li>
+        </ul>
+    </section>
+
+    <section class="mb-5">
+        <h2>¿Qué Ofrecemos?</h2>
+        <p>Vecinapp proporciona una serie de funcionalidades diseñadas para mejorar la administración de las comunidades:</p>
+        <ul>
+            <li>📌 Gestión de comunidades: Creación y administración de comunidades vecinales.</li>
+            <li>📌 Sistema de autenticación: Registro, inicio de sesión y recuperación de contraseñas.</li>
+            <li>📌 Foros de discusión: Espacios donde los vecinos pueden debatir y organizarse.</li>
+            <li>📌 Mensajería interna: Comunicación segura entre vecinos y administradores.</li>
+            <li>📌 Gestión de incidencias: Reporte y seguimiento de problemas en la comunidad.</li>
+        </ul>
+    </section>
+
+    <section class="mb-5">
+        <h2>Nuestro Compromiso con el Futuro</h2>
+        <p>
+            En Vecinapp, creemos en la evolución continua. Nuestro equipo trabaja constantemente en nuevas funcionalidades y mejoras para que la experiencia de los usuarios sea cada vez más eficiente y amigable.  
+        </p>
+        <p>
+            Para el futuro, planeamos integrar nuevas tecnologías como la automatización de pagos de cuotas comunitarias, notificaciones inteligentes y sistemas de votación digital para decisiones comunitarias.  
+        </p>
+    </section>
+
+    <section class="mb-5">
+        <h2>Únete a Nosotros</h2>
+        <p>
+            Si compartes nuestra visión de una comunidad más organizada y conectada, te invitamos a formar parte de Vecinapp.  
+            Nuestra plataforma está diseñada para hacer la vida más fácil, brindando herramientas eficaces para la gestión vecinal.
+        </p>
+        <p class="text-center mt-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_comunidad' %}" class="btn btn-primary btn-lg">Crea tu comunidad ahora</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Únete a nosotros</a>
+            {% endif %}
+        </p>
+    </section>
+</div>
 {% endblock %}
