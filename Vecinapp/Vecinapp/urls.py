@@ -27,4 +27,6 @@ urlpatterns = [
     path('contacto/', include('Contacto.urls')),
 
     path('comunidad/', include('Comunidad.urls')),
+
+    path('interaccion/', include('Interaccion.urls')),
 ]
