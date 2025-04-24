@@ -62,3 +62,13 @@ class Publicacion(models.Model):
     def __str__(self):
         return str(self.categoria)
     
+
+class SolicitudUnion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE)
+    aceptada = models.BooleanField(null=True, blank=True)  # None = pendiente
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        estado = "Pendiente" if self.aceptada is None else ("Aceptada" if self.aceptada else "Rechazada")
+        return f"{self.usuario.username} → {self.comunidad.nombre} ({estado})"

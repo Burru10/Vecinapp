@@ -1,0 +1,205 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* General layout */
+    .buscar-wrapper {
+        min-height: 100vh;
+        background: #f5f9fc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .buscar-contenido {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        max-height: 500px;
+        /* ✅ Altura fija elegante */
+        overflow: hidden;
+    }
+
+    /* Título */
+    .buscar-contenido h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        color: #1e3a5f;
+    }
+
+    /* Input y botón */
+    .input-group input {
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-right: none;
+    }
+
+    .input-group .btn {
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        background-color: #4a90e2;
+        border-color: #4a90e2;
+        color: #fff;
+    }
+
+    .input-group .btn:hover {
+        background-color: #357ABD;
+        border-color: #357ABD;
+    }
+
+    /* Lista con scroll */
+    .scroll-resultados {
+        flex: 1;
+        overflow-y: auto;
+        max-height: 200px;
+        margin-top: 10px;
+        padding-right: 5px;
+    }
+
+    /* Scroll personalizado */
+    .scroll-resultados::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .scroll-resultados::-webkit-scrollbar-thumb {
+        background-color: #b0c4de;
+        border-radius: 6px;
+    }
+
+    .list-group-item {
+        border: none;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        background-color: #f0f4f8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .list-group-item strong {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .text-muted {
+        font-size: 0.9rem;
+    }
+
+    .btn-success {
+        background-color: rgb(39, 196, 196);
+        border: none;
+        font-weight: 500;
+    }
+
+    .btn-success:hover {
+        background-color: rgb(40, 173, 173);
+    }
+</style>
+
+
+<div class="buscar-wrapper">
+    <div class="buscar-contenido">
+        <h2 class="text-center mb-4">Buscar Comunidades</h2>
+
+        <form method="get" class="input-group mb-3">
+            <input type="text" name="localidad" class="form-control" placeholder="Buscar por localidad..."
+                value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        <div class="scroll-resultados">
+            {% if resultados %}
+            <ul class="list-group">
+                {% for comunidad in resultados %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <strong>{{ comunidad.nombre }}</strong><br>
+                        <small class="text-muted">{{ comunidad.localidad }}</small>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-sm solicitar-btn" data-id="{{ comunidad.id }}"
+                            id="btn-{{ comunidad.id }}" data-estado="{{ comunidad.estado_solicitud }}">
+                            {% if comunidad.estado_solicitud == None %}
+                            Pendiente
+                            {% elif comunidad.estado_solicitud == True %}
+                            Aceptada
+                            {% elif comunidad.estado_solicitud == False %}
+                            Rechazada
+                            {% elif comunidad.estado_solicitud == "no_solicitud" %}
+                            Solicitar unión
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </li>
+                {% endfor %}
+            </ul>
+            {% elif query %}
+            <p class="text-muted text-center mt-3">No se encontraron comunidades en "{{ query }}".</p>
+            {% else %}
+            <p class="text-muted text-center mt-3">Introduce una localidad para buscar comunidades.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".solicitar-btn").forEach(btn => {
+        const estado = btn.dataset.estado;
+
+        if (estado === "None") {
+            btn.className = "btn btn-secondary btn-sm";
+            btn.innerText = "Pendiente";
+            btn.disabled = true;
+        } else if (estado === "True") {
+            btn.className = "btn btn-secondary btn-sm";
+            btn.innerText = "Aceptada";
+            btn.disabled = true;
+        } else if (estado === "False") {
+            btn.className = "btn btn-primary btn-sm";
+            btn.innerText = "Solicitar unión";
+            btn.disabled = false;
+        }
+
+        btn.addEventListener("click", function () {
+            const comunidadId = this.dataset.id;
+            const button = this;
+
+            button.disabled = true;
+            button.innerText = "Enviando...";
+
+            fetch(`/comunidad/solicitar-union/ajax/${comunidadId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "pendiente") {
+                        button.className = "btn btn-secondary btn-sm";
+                        button.innerText = "Pendiente";
+                        button.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    button.innerText = "Error";
+                    button.disabled = false;
+                });
+        });
+    });
+</script>
+
+{% endblock %}

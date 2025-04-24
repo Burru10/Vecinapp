@@ -1,5 +1,10 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
+<head>
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'comunidad/css/comunidad.css' %}">
+    {% endblock %}
+</head>
 {% block content %}
 
 
@@ -92,12 +97,19 @@
     {% else %}
     <p class="text-muted">No hay tareas en esta comunidad por ahora.</p>
     {% endif %}
+    <a href="{% url 'salir_comunidad' comunidad.id %}" class="btn btn-danger btn-sm float-end">Salir de la comunidad</a>
+
 </div>
 
 
 <div class="fab-menu">
-    <a href="">💬 Mensajes</a>
-    <a href="">🔔 Notificaciones</a>
+    <a href="{% url 'mensajes' comunidad.id %}">💬 Mensajes</a>
+    
+    <a href="{% url 'notificaciones_usuario' %}">🔔 Mis notificaciones</a>
+    {% if user.administrador %}
+        <a href="{% url 'notificaciones_admin' %}">🛠 Solicitudes a mi comunidad</a>
+    {% endif %}
+    
     <a href="">📋 Mis tareas</a>
 </div>
 
@@ -130,6 +142,8 @@
         </form>
     </div>
 </div>
+
+
 
 <script>
     function mostrarFormulario() {

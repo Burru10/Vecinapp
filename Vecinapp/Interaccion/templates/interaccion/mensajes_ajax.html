@@ -1,0 +1,15 @@
+{% for m in mensajes %}
+<div class="chat-msg {% if m.remitente == request.user %}own{% else %}other{% endif %}">
+    {{ m.contenido }}
+    <div class="chat-meta d-flex justify-content-between align-items-center">
+        <span class="hora-msg">{{ m.fecha_envio|date:"H:i" }}</span>
+        {% if m.remitente == request.user %}
+            {% if m.leido %}
+                <span class="checks text-primary"><i class="bi bi-check2-all"></i></span>
+            {% else %}
+                <span class="checks text-secondary"><i class="bi bi-check"></i></span>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endfor %}

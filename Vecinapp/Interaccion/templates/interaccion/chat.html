@@ -1,0 +1,182 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+/* Aquí tu CSS personalizado, ya adaptado a WhatsApp style */
+
+.chat-wrapper {
+    max-width: 750px;
+    height: 80vh;
+    margin: 115px auto;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.chat-header {
+    padding: 18px 24px;
+    background: rgb(64, 207, 207);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f0f2f5;
+}
+
+.chat-msg {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    position: relative;
+    word-break: break-word;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.chat-msg.own{
+    background-color: rgb(82, 209, 209);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-msg.own .hora-msg {
+    color: #fff;
+}
+
+.chat-msg.other {
+    background-color: #ffffff;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    padding: 0 5px;
+    color: #555;
+}
+
+.hora-msg {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.checks {
+    font-size: 1rem;
+    margin-left: 8px;
+}
+
+.chat-footer {
+    padding: 16px 24px;
+    background: #ffffff;
+    border-top: 1px solid #dee2e6;
+}
+
+.chat-footer form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.chat-footer button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: rgb(73, 185, 185);
+    color: white;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.chat-footer button:hover {
+    background: #0a6b5a;
+}
+
+.hora-msg { font-size: 0.75rem; color: #666; }
+.checks { margin-left: auto; font-size: 0.9rem; }
+</style>
+
+<div class="chat-wrapper">
+    <div class="chat-header d-flex align-items-center">
+        <a href="{% url 'mensajes' comunidad.id %}" class="me-3 text-white text-decoration-none"><i class="bi-arrow-left"></i></a>
+        {{ otro_usuario.username }}
+    </div>
+
+    <div class="chat-body" id="chat-body">
+        {% include 'interaccion/mensajes_ajax.html' %}
+    </div>
+
+    <div class="chat-footer">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.contenido }}
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function actualizarMensajes() {
+    fetch("", { headers: { "X-Requested-With": "XMLHttpRequest" } })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById("chat-body").innerHTML = data.html;
+    });
+}
+
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = this;
+    fetch("", {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            form.reset();
+            actualizarMensajes();
+            scrollToBottom();
+        }
+    });
+});
+
+function scrollToBottom() {
+    const chat = document.getElementById("chat-body");
+    chat.scrollTop = chat.scrollHeight;
+}
+
+setInterval(actualizarMensajes, 5000);
+</script>
+
+{% endblock %}

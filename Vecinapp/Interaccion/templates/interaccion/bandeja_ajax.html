@@ -1,0 +1,17 @@
+{% for item in datos_usuarios %}
+<a href="{% url 'conversacion' item.usuario.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center usuario-chat">
+    <div class="d-flex align-items-center">
+        <div class="avatar">{{ item.usuario.first_name|slice:":1" }}{{ item.usuario.last_name|slice:":1" }}</div>
+        <div>
+            <strong>{{ item.usuario.username }}</strong>
+            <div class="mensaje-preview">{{ item.ultimo_mensaje }}</div>
+        </div>
+    </div>
+    <div class="text-end">
+        <div class="hora-msg">{{ item.hora }}</div>
+        {% if item.no_leidos > 0 %}
+            <div class="notificacion">{{ item.no_leidos }}</div>
+        {% endif %}
+    </div>
+</a>
+{% endfor %}

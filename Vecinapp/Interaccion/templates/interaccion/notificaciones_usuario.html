@@ -1,0 +1,31 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container" style="padding-top: 130px;">
+    <h3>Estado de tus solicitudes</h3>
+    {% if solicitudes %}
+    <ul class="list-group mt-4">
+        {% for s in solicitudes %}
+        <li class="list-group-item d-flex justify-content-between">
+            <div>
+                Comunidad: <strong>{{ s.comunidad.nombre }}</strong><br>
+                Estado:
+                {% if s.aceptada is None %}
+                    <span class="text-warning">Pendiente</span>
+                {% elif s.aceptada %}
+                    <span class="text-success">Aceptada</span>
+                {% else %}
+                    <span class="text-danger">Rechazada</span>
+                {% endif %}
+            </div>
+            <div class="text-end">
+                <small>{{ s.fecha|date:"d/m/Y H:i" }}</small>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted">No has enviado solicitudes aún.</p>
+    {% endif %}
+</div>
+{% endblock %}

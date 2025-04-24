@@ -1,0 +1,95 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .notificaciones-wrapper {
+        padding-top: 130px;
+        min-height: 100vh;
+        background-color: #f5f9fc;
+        display: flex;
+        justify-content: center;
+    }
+
+    .notificaciones-contenido {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px;
+        max-width: 700px;
+        width: 100%;
+    }
+
+    .notificaciones-contenido h3 {
+        font-weight: 600;
+        color: #1e3a5f;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .list-group-item {
+        background-color: #f0f4f8;
+        border: none;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .list-group-item strong {
+        color: #1e3a5f;
+    }
+
+    .btn-success {
+        background-color: rgb(39, 196, 196);
+        border: none;
+        font-weight: 500;
+    }
+
+    .btn-success:hover {
+        background-color: rgb(30, 170, 170);
+    }
+
+    .btn-danger {
+        background-color: #ff6b6b;
+        border: none;
+        font-weight: 500;
+    }
+
+    .btn-danger:hover {
+        background-color: #e04949;
+    }
+
+    .text-muted {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #777;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="notificaciones-wrapper">
+    <div class="notificaciones-contenido">
+        <h3>Solicitudes de unión a tus comunidades</h3>
+
+        {% if solicitudes %}
+        <ul class="list-group">
+            {% for s in solicitudes %}
+            <li class="list-group-item">
+                <div>
+                    <strong>{{ s.usuario.first_name }} {{ s.usuario.last_name }}</strong> solicita unirse a <strong>{{ s.comunidad.nombre }}</strong>
+                </div>
+                <div>
+                    <a href="{% url 'gestionar_solicitud' s.id 'aceptar' %}" class="btn btn-success btn-sm me-2">Aceptar</a>
+                    <a href="{% url 'gestionar_solicitud' s.id 'rechazar' %}" class="btn btn-danger btn-sm">Rechazar</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">No hay solicitudes pendientes.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
