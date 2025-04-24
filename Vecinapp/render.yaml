@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: vecinapp
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn Vecinapp.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Vecinapp.settings
+      - key: PYTHON_VERSION
+        value: 3.10
