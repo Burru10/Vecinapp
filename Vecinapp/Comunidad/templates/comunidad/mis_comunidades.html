@@ -2,9 +2,48 @@
 {% load static %}
 {% block content %}
 
-<div class="container text-center" style="padding-top: 130px;">
-    <h1>Mis Comunidades</h1>
-    <p>Selecciona la comunidad a la que deseas ingresar:</p>
+<style>
+    /* Estilo para el botón Buscar comunidad */
+    .btn{
+        background-color: rgb(39, 196, 196);
+        color: white;
+        /* Azul claro */
+        font-weight: 500;
+        border-radius: 20px;
+        font-size: 1rem;
+    }
+
+    .btn:hover {
+        background-color: rgb(36, 165, 165);
+        color: white;
+    }
+</style>
+
+<div class="container" style="padding-top: 130px;">
+    <h1 class="text-center">Mis Comunidades</h1>
+
+    <div class="container mt-4 mb-5">
+        <div class="row text-center text-md-start">
+    
+            <!-- Texto (siempre primero) -->
+            <div class="col-12 mb-3 text-center">
+              <p class="m-0">Selecciona la comunidad a la que deseas ingresar:</p>
+            </div>
+        
+            <!-- Izquierda (Crear comunidad) -->
+            <div class="col-12 col-md-6 d-flex justify-content-md-start justify-content-center mb-2 mb-md-0">
+              <a href="{% url 'crear_comunidad' %}" class="btn w-auto">Crear comunidad</a>
+            </div>
+        
+            <!-- Derecha (Buscar comunidad) -->
+            <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-center">
+              <a href="{% url 'buscar_comunidades' %}" class="btn w-auto">Buscar comunidad</a>
+            </div>
+        
+          </div>
+        
+        
+    </div>
 
 
 </div>
@@ -16,7 +55,8 @@
             <a href="{% url 'mi_comunidad' comunidad.id %}">
                 {{ comunidad.nombre }}
             </a>
-        </li><hr>
+        </li>
+        <hr>
         {% endfor %}
     </ul>
 </div>

@@ -1,15 +1,96 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
-
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container text-center" style="padding-top: 130px;">
-    <h2>Crear Comunidad</h2>
-    <form method="POST" class="col-md-5 text-start">
-        {% csrf_token %}
-        {{form|crispy}}
-        <button type="submit" class="btn btn-primary">Crear</button>
-    </form>
+
+<style>
+    .crear-comunidad-wrapper {
+        min-height: 100vh;
+        padding-top: 130px;
+        background: #f5f9fc;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+
+    .crear-comunidad-contenido {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .crear-comunidad-contenido h2 {
+        font-weight: 600;
+        color: #1e3a5f;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .crear-comunidad-contenido form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .btn {
+        background-color: rgb(39, 196, 196);
+        color: white;
+        font-weight: 500;
+        border-radius: 20px;
+        font-size: 1rem;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: rgb(30, 170, 170);
+        color: white;
+    }
+</style>
+
+<div class="crear-comunidad-wrapper">
+    <div class="crear-comunidad-contenido mb-5">
+        <h2>Crear Comunidad</h2>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form.nombre|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.provincia|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    {{ form.localidad|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.codigo_postal|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    {{ form.direccion|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.numero|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="text-center mt-2">
+                <button type="submit" class="btn" >Crear comunidad</button>
+            </div>
+        </form>
+
+    </div>
 </div>
+
 {% endblock %}

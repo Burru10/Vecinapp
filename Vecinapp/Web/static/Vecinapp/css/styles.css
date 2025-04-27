@@ -197,10 +197,11 @@ body {
     border-radius: 10px;
 }
 
-.community .btn {
+.btn {
     background-color: rgb(39, 196, 196);
     color: white;
 }
+
 
 /*CONTACTO*/
 .contenedorFormulario {
