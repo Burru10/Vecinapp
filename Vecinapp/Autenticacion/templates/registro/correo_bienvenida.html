@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px; }
+        .email-container {
+            max-width: 600px; margin: auto; background: white; padding: 30px;
+            border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #2c3e50; }
+        p { color: #555; }
+        .btn {
+            display: inline-block; padding: 10px 20px; margin-top: 20px;
+            background-color: #28a745; color: white; text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <h2>¡Hola {{ user.first_name }}!</h2>
+    <p>Gracias por registrarte en <strong>Vecinapp</strong>. Estamos encantados de darte la bienvenida a nuestra comunidad de ayuda entre vecinos.</p>
+    <p>Desde ahora podrás publicar solicitudes, ofrecer ayuda y conectar con personas cerca de ti.</p>
+    <a href="http://127.0.0.1:8000/" class="btn">Ir a Vecinapp</a>
+</div>
+</body>
+</html>

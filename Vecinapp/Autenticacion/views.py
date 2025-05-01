@@ -5,6 +5,9 @@ from .forms import RegistroForm, FormularioLogin
 
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 # Create your views here.
@@ -15,6 +18,15 @@ def registro(request):
         if form.is_valid():
             usuario = form.save()
             login(request, usuario)
+
+            # Crear contenido del correo
+            subject = '¡Bienvenido a Vecinapp!'
+            html_message = render_to_string('usuarios/correo_bienvenida.html', {'user': usuario})
+            plain_message = strip_tags(html_message)
+            to_email = usuario.email
+
+            # Enviar el correo
+            send_mail(subject, plain_message, None, [to_email], html_message=html_message)
             return redirect('index')
         else:
             for msg in form.error_messages:
