@@ -1,0 +1,104 @@
+{% extends 'Vecinapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% block extra_css %}
+<style>
+  /* Ajuste general para hueco en navbar fijo */
+  .detail-container { padding-top: 130px; margin-bottom: 75px;}
+
+  .detail-header {
+    background: linear-gradient(135deg, #27c4c4 0%, #1fa1a1 100%);
+    color: #fff;
+    padding: 1.5rem;
+    border-top-left-radius: .75rem;
+    border-top-right-radius: .75rem;
+  }
+  .detail-card {
+    border: none;
+    border-radius: .75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform .3s ease, box-shadow .3s ease;
+    background: #fff;
+  }
+  .detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  .detail-content {
+    padding: 1.5rem;
+  }
+  .detail-row {
+    margin-bottom: 1rem;
+  }
+  .label {
+    font-weight: 600;
+    color: #555;
+  }
+  /* Responsive: ajustes en móviles */
+  @media (max-width: 576px) {
+    .detail-container { padding-top: 100px; }
+    .detail-header {
+      padding: 1rem;
+    }
+    .detail-content {
+      padding: 1rem;
+    }
+  }
+</style>
+{% endblock %}
+
+<div class="container detail-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card detail-card">
+        <div class="detail-header text-center">
+          <h2 class="mb-0">Detalle de la Tarea</h2>
+        </div>
+        <div class="detail-content">
+          <div class="detail-row d-flex flex-column flex-md-row justify-content-between">
+            <div>
+              <span class="label">Categoría:</span>
+              <span>{{ tarea.categoria.nombre }}</span>
+            </div>
+            <div>
+              <span class="label">Publicado:</span>
+              <small class="text-muted">{{ tarea.fecha_publicacion|date:"d/m/Y H:i" }}</small>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="label">Descripción:</span>
+            <p>{{ tarea.descripcion }}</p>
+          </div>
+          <div class="detail-row d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div>
+              <span class="label">Estado:</span>
+              <span class="badge 
+                {% if tarea.estado == 'abierta' %}bg-info text-dark
+                {% elif tarea.estado == 'en progreso' %}bg-warning text-dark
+                {% else %}bg-success{% endif %}">
+                {{ tarea.get_estado_display }}
+              </span>
+            </div>
+            <div>
+              <span class="label">Publicado por:</span>
+              <span>{{ tarea.usuario.username }}</span>
+            </div>
+            {% if tarea.realizada_por %}
+            <div>
+              <span class="label">Realizada por:</span>
+              <span>{{ tarea.realizada_por.username }}</span>
+            </div>
+            {% endif %}
+          </div>
+          <div class="detail-row text-end">
+            <a href="{% url 'mis_tareas' %}" class="btn btn-outline-secondary">&larr; Volver a Mis Tareas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

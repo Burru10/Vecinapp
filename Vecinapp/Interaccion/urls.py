@@ -7,8 +7,9 @@ urlpatterns = [
     path('chat/<int:usuario_id>/', conversacion, name='conversacion'),
 
     path('bandeja-ajax/<int:comunidad_id>/', actualizar_bandeja, name='actualizar_bandeja'),
+    
+    path('<int:comunidad_id>/notificaciones/admin/', notificaciones_admin, name='notificaciones_admin'),
+    path('<int:comunidad_id>/notificaciones/usuario/', notificaciones_usuario, name='notificaciones_usuario'),
 
-    path('notificaciones/admin/', notificaciones_admin, name='notificaciones_admin'),
-    path('notificaciones/usuario/', notificaciones_usuario, name='notificaciones_usuario'),
     path('solicitud/<int:solicitud_id>/<str:decision>/', gestionar_solicitud, name='gestionar_solicitud'),
 ]

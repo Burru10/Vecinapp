@@ -558,10 +558,18 @@ body {
         opacity: 1;
         transform: scale(1) translate(0,0); /* JS reescribirá el translate */
       }
-  
 }
 
+.notification-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
 
+  
 
 
 

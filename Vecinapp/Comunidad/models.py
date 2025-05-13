@@ -68,7 +68,38 @@ class SolicitudUnion(models.Model):
     comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE)
     aceptada = models.BooleanField(null=True, blank=True)  # None = pendiente
     fecha = models.DateTimeField(auto_now_add=True)
+    visto_usuario = models.BooleanField(default=False)
 
     def __str__(self):
         estado = "Pendiente" if self.aceptada is None else ("Aceptada" if self.aceptada else "Rechazada")
         return f"{self.usuario.username} → {self.comunidad.nombre} ({estado})"
+
+
+class SalidaUnion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comunidad = models.ForeignKey('Comunidad', on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+class Expulsion(models.Model):
+    admin = models.ForeignKey('Administrador', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='expulsiones')
+    comunidad = models.ForeignKey('Comunidad', on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+class AdminCambio(models.Model):
+    comunidad = models.ForeignKey('Comunidad', on_delete=models.CASCADE)
+    usuario_old = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cambios_old')
+    usuario_new = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cambios_new')
+    TIPO_CHOICES = [
+        ('abandono', 'Abandono'),
+        ('cesión',   'Cesión'),
+    ]
+    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+
+class NotificacionSalida(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comunidad = models.ForeignKey(Comunidad, on_delete=models.CASCADE)
+    mensaje = models.CharField(max_length=255)
+    fecha = models.DateTimeField(auto_now_add=True)

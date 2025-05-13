@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 
 from .models import Mensaje
-from Comunidad.models import Comunidad, SolicitudUnion
+from Comunidad.models import Comunidad, SolicitudUnion, Publicacion, SalidaUnion, Expulsion, AdminCambio, NotificacionSalida
 from .forms import MensajeForm
 
 
@@ -122,19 +122,77 @@ def conversacion(request, usuario_id):
 
 #Vistas para las notificaciones
 
-def notificaciones_admin(request):
-    comunidades_admin = Comunidad.objects.filter(administrador__user=request.user)
-    solicitudes = SolicitudUnion.objects.filter(comunidad__in=comunidades_admin, aceptada=None)
-
+def notificaciones_admin(request, comunidad_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id, administrador__user=request.user)
+    solicitudes = SolicitudUnion.objects.filter(comunidad=comunidad, aceptada=None)
     return render(request, 'interaccion/notificaciones_admin.html', {
-        'solicitudes': solicitudes
+        'solicitudes': solicitudes,
+        'comunidad': comunidad,
     })
 
+def notificaciones_usuario(request, comunidad_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id, usuarios=request.user)
+    notifications = []
 
-def notificaciones_usuario(request):
-    solicitudes = SolicitudUnion.objects.filter(usuario=request.user).order_by('-fecha')
+    # 1) Has ingresado a la comunidad
+    for j in SolicitudUnion.objects.filter(
+        comunidad=comunidad,
+        usuario=request.user,
+        aceptada=True
+    ):
+        notifications.append({
+            'fecha': j.fecha,
+            'texto': f'Has ingresado a la comunidad {comunidad.nombre}'
+        })
+
+    # 2) Tarea aceptada
+    for t in Publicacion.objects.filter(
+        comunidad=comunidad,
+        usuario=request.user,
+        realizada_por__isnull=False
+    ):
+        notifications.append({
+            'fecha': t.fecha_publicacion,
+            'texto': (
+                f'{t.realizada_por.username} ha aceptado tu tarea: '
+                f'{t.categoria.nombre} – {t.descripcion[:30]}'
+            )
+        })
+
+    # 3) Tarea finalizada
+    for t in Publicacion.objects.filter(
+        comunidad=comunidad,
+        usuario=request.user,
+        estado='completada',
+        realizada_por__isnull=False
+    ):
+        notifications.append({
+            'fecha': t.fecha_publicacion,
+            'texto': (
+                f'{t.realizada_por.username} ha finalizado tu tarea: '
+                f'{t.categoria.nombre} – {t.descripcion[:30]}'
+            )
+        })
+
+    # 4) Notificaciones de salida
+    for s in NotificacionSalida.objects.filter(comunidad=comunidad, usuario=request.user):
+        notifications.append({
+            'fecha': s.fecha,
+            'texto': s.mensaje
+        })
+
+    for e in Expulsion.objects.filter(comunidad=comunidad):
+        notifications.append({
+            'fecha': e.fecha,
+            'texto': f'{e.admin.user.username} ha expulsado a {e.usuario.username}'
+        })
+
+    # ordenar por fecha descendente
+    notifications.sort(key=lambda x: x['fecha'], reverse=True)
+
     return render(request, 'interaccion/notificaciones_usuario.html', {
-        'solicitudes': solicitudes
+        'comunidad': comunidad,
+        'notifications': notifications,
     })
 
 
@@ -151,4 +209,4 @@ def gestionar_solicitud(request, solicitud_id, decision):
         solicitud.aceptada = False
 
     solicitud.save()
-    return redirect('notificaciones_admin')
+    return redirect('notificaciones_admin', solicitud.comunidad.id)

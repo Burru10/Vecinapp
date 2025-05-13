@@ -90,7 +90,6 @@
     </div>
 </div>
 
-
         {% endfor %}
     </div>
     {% else %}
@@ -104,22 +103,35 @@
 <div class="fab-menu">
     <a href="{% url 'mensajes' comunidad.id %}">💬 Mensajes</a>
     
-    <a href="{% url 'notificaciones_usuario' %}">🔔 Mis notificaciones</a>
-    {% if user.administrador %}
-        <a href="{% url 'notificaciones_admin' %}">🛠 Solicitudes a mi comunidad</a>
-    {% endif %}
+    <a href="{% url 'notificaciones_usuario' comunidad.id %}">
+        🔔 Mis notificaciones
+        {% if user_notif_count %}<span class="notification-dot"></span>{% endif %}
+      </a>
+      {% if comunidad.administrador.user == user %}
+        <a href="{% url 'notificaciones_admin' comunidad.id %}">
+          🛠 Panel de administrador
+          {% if admin_notif_count %}<span class="notification-dot"></span>{% endif %}
+        </a>
+      {% endif %}
     
-    <a href="">📋 Mis tareas</a>
+    <a href="{% url 'mis_tareas' %}">📋 Mis tareas</a>
 </div>
 
 <div class="fab-container">
     <button class="fab-toggle">➕</button>
     <div class="fab-actions">
       <a href="{% url 'mensajes' comunidad.id %}" class="fab-item">💬</a>
-      <a href="{% url 'notificaciones_usuario' %}" class="fab-item">🔔</a>
-      {% if user.administrador %}
-        <a href="{% url 'notificaciones_admin' %}" class="fab-item">🛠</a>
+      <a href="{% url 'notificaciones_usuario' comunidad.id %}">
+        🔔
+        {% if user_notif_count %}<span class="notification-dot"></span>{% endif %}
+      </a>
+      {% if comunidad.administrador.user == user %}
+        <a href="{% url 'notificaciones_admin' comunidad.id %}">
+          🛠
+          {% if admin_notif_count %}<span class="notification-dot"></span>{% endif %}
+        </a>
       {% endif %}
+
       <a href="#" class="fab-item">📋</a>
     </div>
   </div>

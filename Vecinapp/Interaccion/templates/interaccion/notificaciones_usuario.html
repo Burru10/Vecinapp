@@ -1,31 +1,70 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
+
 {% block content %}
-<div class="container" style="padding-top: 130px;">
-    <h3>Estado de tus solicitudes</h3>
-    {% if solicitudes %}
-    <ul class="list-group mt-4">
-        {% for s in solicitudes %}
-        <li class="list-group-item d-flex justify-content-between">
-            <div>
-                Comunidad: <strong>{{ s.comunidad.nombre }}</strong><br>
-                Estado:
-                {% if s.aceptada is None %}
-                    <span class="text-warning">Pendiente</span>
-                {% elif s.aceptada %}
-                    <span class="text-success">Aceptada</span>
-                {% else %}
-                    <span class="text-danger">Rechazada</span>
-                {% endif %}
-            </div>
-            <div class="text-end">
-                <small>{{ s.fecha|date:"d/m/Y H:i" }}</small>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p class="text-muted">No has enviado solicitudes aún.</p>
-    {% endif %}
+
+{% block extra_css %}
+<style>
+  /* Contenedor y espaciado */
+  .notifications-container {
+    padding-top: 130px;
+    margin-bottom: 4rem;
+  }
+  .notifications-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #27c4c4;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  /* Lista de notificaciones */
+  .notification-card {
+    list-style: none;
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .notification-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .notification-time {
+    font-size: 0.85rem;
+    color: #777;
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+  @media (max-width: 576px) {
+    .notifications-header { font-size: 1.75rem; }
+    .notification-card { flex-direction: column; align-items: flex-start; }
+    .notification-time { margin: 0.5rem 0 0 0; }
+  }
+</style>
+{% endblock %}
+<div class="container notifications-container">
+  <a href="{% url 'mi_comunidad' comunidad.id %}" class="d-inline-block text-info mb-3">
+    <i class="bi bi-arrow-left"></i> Volver a {{ comunidad.nombre }}
+  </a>
+  <h1 class="notifications-header">Notificaciones en {{ comunidad.nombre }}</h1>
+
+  <ul class="p-0">
+    {% for n in notifications %}
+    <li class="notification-card">
+      <div>{{ n.texto }}</div>
+      <div class="notification-time">{{ n.fecha|date:"d/m/Y H:i" }}</div>
+    </li>
+    {% empty %}
+    <li class="notification-card text-center text-muted">
+      No tienes notificaciones.
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

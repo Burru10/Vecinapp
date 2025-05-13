@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ComunidadForm, PublicacionForm
-from .models import Administrador, Comunidad, Publicacion, CategoriaTarea, SolicitudUnion
+from .models import Administrador, Comunidad, Publicacion, CategoriaTarea, SolicitudUnion, SalidaUnion, AdminCambio, NotificacionSalida, Expulsion
+from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.http import JsonResponse
@@ -61,6 +62,20 @@ def mi_comunidad(request, comunidad_id):
 
     categorias = CategoriaTarea.objects.all()
 
+    # NOTIFICACIONES
+    user_notif_count = SolicitudUnion.objects.filter(
+        comunidad=comunidad,
+        usuario=request.user,
+        aceptada__isnull=False,
+        visto_usuario=False
+    ).count()
+    admin_notif_count = 0
+    if comunidad.administrador.user == request.user:
+        admin_notif_count = SolicitudUnion.objects.filter(
+            comunidad=comunidad,
+            aceptada__isnull=True
+        ).count()
+
     return render(
         request, 
         "comunidad/mi_comunidad.html", 
@@ -69,6 +84,8 @@ def mi_comunidad(request, comunidad_id):
             "publicaciones": publicaciones,
             "form": form,
             "categorias": categorias,
+            "user_notif_count": user_notif_count,
+            "admin_notif_count": admin_notif_count,
         }
     )
 
@@ -86,11 +103,7 @@ def realizar_tarea(request, tarea_id):
     return redirect("mi_comunidad", comunidad_id=tarea.comunidad.id)
     
 
-def salir_comunidad(request, comunidad_id):
-    comunidad = get_object_or_404(Comunidad, id=comunidad_id)
-    comunidad.usuarios.remove(request.user)
-    messages.success(request, "Has salido de la comunidad.")
-    return redirect('comunidad')
+
 
 
 def buscar_comunidades(request):
@@ -132,7 +145,7 @@ def solicitar_union_ajax(request, comunidad_id):
             if ultima.aceptada is None:
                 return JsonResponse({"status": "pendiente"})
             elif ultima.aceptada is False:
-                # ❗️ Crear una nueva solicitud permitida tras rechazo
+                # Crear una nueva solicitud permitida tras rechazo
                 SolicitudUnion.objects.create(usuario=request.user, comunidad=comunidad, aceptada=None)
                 return JsonResponse({"status": "pendiente"})
             elif ultima.aceptada is True and not comunidad.usuarios.filter(id=request.user.id).exists():
@@ -144,3 +157,166 @@ def solicitar_union_ajax(request, comunidad_id):
         return JsonResponse({"status": "pendiente"})
 
     return JsonResponse({"status": "error"})
+
+
+def mis_tareas(request):
+    # Tareas que yo he publicado
+    published = Publicacion.objects.filter(usuario=request.user)
+    # Tareas que yo estoy realizando o he completado
+    in_progress = Publicacion.objects.filter(realizada_por=request.user)
+    return render(request, 'comunidad/mis_tareas.html', {
+        'published': published,
+        'in_progress': in_progress
+    })
+
+
+def ver_tarea(request, tarea_id):
+    tarea = get_object_or_404(Publicacion, id=tarea_id)
+    return render(request, 'comunidad/ver_tarea.html', {'tarea': tarea})
+
+
+
+
+
+
+
+
+
+
+def ceder_rol_admin(request, comunidad_id, nuevo_admin_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id)
+    
+    # Verificar si el usuario actual es el administrador
+    if comunidad.administrador.user != request.user:
+        return redirect('mi_comunidad', comunidad_id=comunidad_id)
+
+    # Verificar que el nuevo administrador es un miembro de la comunidad
+    nuevo_admin = get_object_or_404(User, id=nuevo_admin_id)
+    if nuevo_admin not in comunidad.usuarios.all():
+        return redirect('mi_comunidad', comunidad_id=comunidad_id)
+
+    # Crear el registro de cambio de admin
+    AdminCambio.objects.create(
+        comunidad=comunidad,
+        usuario_old=request.user,
+        usuario_new=nuevo_admin,
+        tipo='cesión'
+    )
+
+    # Actualizar el rol de administrador
+    nuevo_admin_obj, _ = Administrador.objects.get_or_create(user=nuevo_admin)
+    comunidad.administrador = nuevo_admin_obj
+    comunidad.save()
+
+    # Crear la notificación de cambio de administrador
+    NotificacionSalida.objects.create(
+        usuario=request.user,
+        comunidad=comunidad,
+        mensaje=f'El administrador {request.user.username} ha cedido su rol a {nuevo_admin.username}.'
+    )
+
+    return redirect('mi_comunidad', comunidad_id=comunidad_id)
+
+
+
+
+
+
+
+
+
+def eliminar_usuario(request, comunidad_id, usuario_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id)
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    # Verificar si el usuario actual es el administrador
+    if comunidad.administrador.user != request.user:
+        return redirect('mi_comunidad', comunidad_id=comunidad_id)
+
+    # Eliminar al usuario de la comunidad
+    comunidad.usuarios.remove(usuario)
+
+    # Registrar la expulsión
+    Expulsion.objects.create(
+        admin=comunidad.administrador,
+        usuario=usuario,
+        comunidad=comunidad
+    )
+
+    # Notificar al usuario expulsado si lo deseas
+    messages.success(request, f'{usuario.username} ha sido expulsado de la comunidad.')
+    
+    return redirect('mi_comunidad', comunidad_id=comunidad_id)
+
+
+
+
+
+
+
+
+
+
+
+
+def salir_comunidad(request, comunidad_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id)
+
+    # Si quien sale es el admin, elegimos nuevo admin y registramos el cambio
+    if comunidad.administrador.user == request.user:
+        otros = list(comunidad.usuarios.exclude(id=request.user.id))
+        if otros:
+            nuevo_user = otros[0]
+            # Crear un registro de cambio de administrador
+            AdminCambio.objects.create(
+                comunidad=comunidad,
+                usuario_old=request.user,
+                usuario_new=nuevo_user,
+                tipo='abandono'
+            )
+            # Asignar nuevo Administrador
+            nuevo_admin, _ = Administrador.objects.get_or_create(user=nuevo_user)
+            comunidad.administrador = nuevo_admin
+            comunidad.save()
+            # Crear la notificación de salida
+            NotificacionSalida.objects.create(
+                usuario=request.user,
+                comunidad=comunidad,
+                mensaje=f'El administrador {request.user.username} ha abandonado la comunidad; nuevo administrador: {nuevo_user.username}'
+            )
+        else:
+            # Sin más usuarios, eliminar la comunidad
+            comunidad.delete()
+            return redirect('comunidad')  # Redirigir a la lista de comunidades
+
+    # Para los usuarios normales, solo se registran las salidas
+    comunidad.usuarios.remove(request.user)
+    NotificacionSalida.objects.create(
+        usuario=request.user,
+        comunidad=comunidad,
+        mensaje=f'{request.user.username} ha abandonado la comunidad'
+    )
+
+    # Verificar si la comunidad está vacía
+    if not comunidad.usuarios.exists():
+        comunidad.delete()
+
+    return redirect('comunidad')
+
+
+
+
+
+def finalizar_tarea(request, tarea_id):
+    tarea = get_object_or_404(Publicacion, id=tarea_id, realizada_por=request.user)
+    # notificar al dueño
+    NotificacionSalida.objects.create(
+        usuario=tarea.usuario,       
+        comunidad=tarea.comunidad,
+        mensaje=(
+          f'{request.user.username} ha finalizado tu tarea: '
+          f'{tarea.categoria.nombre} – {tarea.descripcion[:30]}'
+        )
+    )
+    tarea.delete()
+    return redirect('mis_tareas')
