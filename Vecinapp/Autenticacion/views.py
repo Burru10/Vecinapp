@@ -21,7 +21,7 @@ def registro(request):
 
             # Crear contenido del correo
             subject = '¡Bienvenido a Vecinapp!'
-            html_message = render_to_string('usuarios/correo_bienvenida.html', {'user': usuario})
+            html_message = render_to_string('registro/correo_bienvenida.html', {'user': usuario})
             plain_message = strip_tags(html_message)
             to_email = usuario.email
 

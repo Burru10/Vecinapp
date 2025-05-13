@@ -197,10 +197,11 @@ body {
     border-radius: 10px;
 }
 
-.community .btn {
+.btn {
     background-color: rgb(39, 196, 196);
     color: white;
 }
+
 
 /*CONTACTO*/
 .contenedorFormulario {
@@ -211,176 +212,9 @@ body {
 }
 
 
-/*MI COMUNIDAD*/
-/* Fondo oscuro cuando se abre el formulario */
-#fondo-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 997;
-}
 
-/* Contenedor del formulario */
-#formulario-tarea {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 550px;
-    margin: 115px auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    z-index: 998;
-    position: relative;
-}
 
-.cerrar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-    font-size: 20px;
-}
 
-.options {
-    margin: 50px;
-}
-
-.tasks {
-    margin-top: 75px;
-    margin-bottom: 75px;
-}
-
-.tasks .card {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease;
-    background: #fff;
-    cursor: pointer;
-}
-
-.tasks .card:hover {
-    transform: scale(1.02);
-}
-
-.tasks .card-title {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.tasks .card-text {
-    font-size: 0.95rem;
-    color: #444;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.tasks .badge-estado {
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    display: inline-block;
-    margin-top: 8px;
-}
-
-.estado-abierta {
-    background-color: #e6f4ea;
-    color: #2e7d32;
-}
-
-.estado-en_progreso {
-    background-color: #fff8e1;
-    color: #f9a825;
-}
-
-.estado-finalizada {
-    background-color: #e3f2fd;
-    color: #1976d2;
-}
-
-.tasks .autor {
-    font-size: 0.85rem;
-    color: #888;
-    margin-top: 10px;
-}
-
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-overlay.activo {
-    display: flex;
-}
-
-.modal-detalle {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    position: relative;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.cerrar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #333;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Menú flotante */
-
-.fab-menu {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.fab-menu a {
-    background-color: rgb(39, 196, 196);
-    color: white;
-    padding: 12px 16px;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: all 0.2s ease;
-    font-size: 14px;
-}
-
-.fab-menu a:hover {
-    background-color: rgb(47, 228, 228);
-}
 
 
 

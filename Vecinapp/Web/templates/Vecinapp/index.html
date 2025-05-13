@@ -1,6 +1,28 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
 {% block content %}
+
+<style>
+.btn-action {
+    display: inline-block;
+    background-color: #27c4c4;
+    color: white;
+    font-weight: 500;
+    border-radius: 50px;
+    padding: 15px 30px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 30px;
+}
+
+.btn-action:hover {
+    background-color: #1ea8a8;
+    transform: scale(1.05);
+}
+
+
+</style>
+
     <div class="background-image">
         <div class="overlay"></div>
         <img src="{% static 'Vecinapp/img/fondo.jpg' %}" alt="">
@@ -67,22 +89,31 @@
         </div>
     </div>
 
-    <div class="container  mt-5 mb-5">
-        <div class="row community align-items-center">
-            
-            <div class="col-md-6 text-center">
-                <img src="{% static 'Vecinapp/img/comunidad.jpg' %}" class="img-fluid rounded" alt="Comunidad Vecinapp">
-            </div>
-    
-            <div class="col-md-6 text-center">
-                <h2 class="mb-3">Únete a la comunidad</h2>
-                <p class="lead">Vecinapp está aquí para ayudarte. Publica una solicitud o ayuda a tus vecinos.  
-                Conecta con personas cercanas y haz del barrio un lugar mejor.</p>
-                <a href="{% url 'autenticacion' %}" class="btn btn-lg">Regístrate Gratis</a>
-            </div>
+    <div class="container py-5">
+        <div class="row g-4 align-items-center community">
+          
+          <!-- Imagen a la izquierda -->
+          <div class="col-12 col-md-6 text-center text-md-start">
+            <img src="{% static 'Vecinapp/img/comunidad.jpg' %}"
+                 class="img-fluid rounded"
+                 alt="Comunidad Vecinapp">
+          </div>
+      
+          <!-- Texto y botón a la derecha -->
+          <div class="col-12 col-md-6 text-center text-md-start">
+            <h2 class="mt-4 mb-4">Únete a la comunidad</h2>
+            <p class="lead mb-1">
+              Vecinapp está aquí para ayudarte. Publica una solicitud o ayuda a tus vecinos.
+              Conecta con personas cercanas y haz del barrio un lugar mejor.
+            </p>
+            <a href="{% url 'autenticacion' %}" class="btn-action" role="button">
+                Regístrate Gratis
+              </a>
+              
+          </div>
+      
         </div>
-    </div>
-    
+      </div>          
     
     
 {% endblock %}

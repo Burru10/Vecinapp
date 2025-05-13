@@ -212,37 +212,159 @@ body {
 }
 
 
+
+
+
+
 /*MI COMUNIDAD*/
-/* Fondo oscuro cuando se abre el formulario */
-#fondo-modal {
-    display: none;
+
+.modal-overlay {
+    display: none;  
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 997;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Contenedor del formulario */
-#formulario-tarea {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-detalle {
+    background: #ffffff;
+    padding: 35px 30px;
+    border-radius: 16px;
     max-width: 550px;
-    margin: 115px auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    z-index: 998;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+    font-family: 'Segoe UI', sans-serif;
 }
 
+.modal-detalle h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 22px;
+}
+
+.modal-detalle p {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.btn-realizar-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.btn-realizar {
+    background-color: rgb(39, 196, 196);
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-realizar:hover {
+    background-color: rgb(33, 170, 170);
+}
+
+/* Botón de cerrar modal */
+.cerrar {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+/* Fondo oscuro cuando se abre el formulario */
+#fondo-modal {
+    display: none;  /* Inicialmente oculto */
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);  /* Fondo con desenfoque */
+    z-index: 10000;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    padding: 20px;
+}
+
+/* Estilo del formulario de tarea */
+#formulario-tarea {
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+/* Estilo del encabezado del formulario */
+#formulario-tarea h3 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+/* Estilo de los botones */
+#formulario-tarea .btn {
+    display: block;
+    margin: 0 auto;
+    background-color: rgb(39, 196, 196);
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#formulario-tarea .btn:hover {
+    background-color: rgb(33, 170, 170);
+}
+
+/* Animación de aparición del formulario */
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para el botón de cerrar el modal */
 .cerrar {
     position: absolute;
     top: 10px;
     right: 15px;
+    font-size: 22px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 20px;
+    color: #666;
 }
 
 .options {
@@ -314,47 +436,7 @@ body {
     margin-top: 10px;
 }
 
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-}
 
-.modal-overlay.activo {
-    display: flex;
-}
-
-.modal-detalle {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    position: relative;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.cerrar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #333;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
 
 /* Menú flotante */
 
@@ -382,8 +464,6 @@ body {
 .fab-menu a:hover {
     background-color: rgb(47, 228, 228);
 }
-
-
 
 
 

@@ -1,10 +1,6 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
-<head>
-    {% block extra_css %}
-        <link rel="stylesheet" href="{% static 'comunidad/css/comunidad.css' %}">
-    {% endblock %}
-</head>
+
 {% block content %}
 
 
@@ -35,7 +31,7 @@
 
             <!-- Derecha: Botón para añadir tarea -->
             <div class="col text-end">
-                <button type="button" class="btn btn-primary" onclick="mostrarFormulario()">+ Añadir Tarea</button>
+                <button type="button" class="btn" style="background-color: rgb(39, 196, 196); color: white; border-radius: 20px;" onclick="mostrarFormulario()">+ Añadir Tarea</button>
             </div>
         </div>
     </form>
@@ -69,28 +65,31 @@
         </div>
 
         <!-- Para mostrar más en profundidad los detalles de la tarea -->
-        <div class="modal-overlay" id="modal-{{ pub.id }}">
-            <div class="modal-detalle">
-                <span class="cerrar" onclick="cerrarDetalle('{{ pub.id }}')">&times;</span>
-                <h4>{{ pub.categoria }}</h4>
-                <p><strong>Descripción:</strong> {{ pub.descripcion }}</p>
-                <p><strong>Estado:</strong> {{ pub.estado|capfirst }}</p>
-                <p><strong>Publicado por:</strong> {{ pub.usuario.username }}</p>
-                <p><strong>Fecha:</strong> {{ pub.fecha_publicacion|date:"d/m/Y H:i" }}</p>
-                <br>
-                {% if pub.estado == 'en progreso' %}
-                    <p><strong>Realizada por:</strong> {{ request.user.username }}</p>
-                {% endif %}
+        <!-- Modal del detalle de la tarea -->
+<div class="modal-overlay" id="modal-{{ pub.id }}">
+    <div class="modal-detalle">
+        <span class="cerrar" onclick="cerrarDetalle('{{ pub.id }}')">&times;</span>
+        <h4>{{ pub.categoria }}</h4>
+        <p><strong>Descripción:</strong> {{ pub.descripcion }}</p>
+        <p><strong>Estado:</strong> {{ pub.estado|capfirst }}</p>
+        <p><strong>Publicado por:</strong> {{ pub.usuario.username }}</p>
+        <p><strong>Fecha:</strong> {{ pub.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+        <br>
+        {% if pub.estado == 'en progreso' %}
+            <p><strong>Realizada por:</strong> {{ request.user.username }}</p>
+        {% endif %}
 
-
-                {% if pub.estado == 'abierta' %}
-                <form method="POST" action="{% url 'realizar_tarea' pub.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-sm mt-3">Realizar tarea</button>
-                </form>
-                {% endif %}
+        {% if pub.estado == 'abierta' %}
+        <form method="POST" action="{% url 'realizar_tarea' pub.id %}">
+            {% csrf_token %}
+            <div class="btn-realizar-container">
+                <button type="submit" class="btn-realizar">Realizar tarea</button>
             </div>
-        </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
 
         {% endfor %}
     </div>
@@ -115,10 +114,12 @@
 
 
 <!-- Fondo oscuro y formulario centrado -->
-<div id="fondo-modal">
+<div id="fondo-modal" style="display: none;">
     <div id="formulario-tarea">
+        <!-- Botón para cerrar el modal -->
         <span class="cerrar" onclick="cerrarFormulario()">&times;</span>
         <h3 class="mb-4">Nueva Tarea</h3>
+        
         <form method="POST" action="">
             {% csrf_token %}
             {{ form.non_field_errors }}
@@ -128,16 +129,19 @@
                 {{ form.categoria }}
                 {{ form.categoria.errors }}
             </div>
+
             <div class="form-group mb-3 text-start">
                 {{ form.descripcion.label_tag }}
                 {{ form.descripcion }}
                 {{ form.descripcion.errors }}
             </div>
+
             <div class="form-group mb-4 text-start">
                 {{ form.estado.label_tag }}
                 {{ form.estado }}
                 {{ form.estado.errors }}
             </div>
+
             <button type="submit" class="btn btn-primary">Crear tarea</button>
         </form>
     </div>
@@ -145,14 +149,16 @@
 
 
 
-<script>
-    function mostrarFormulario() {
-        document.getElementById("fondo-modal").style.display = "block";
-    }
 
-    function cerrarFormulario() {
-        document.getElementById("fondo-modal").style.display = "none";
-    }
+<script>
+
+function mostrarFormulario() {
+    document.getElementById("fondo-modal").style.display = "flex";  // Muestra el modal
+}
+
+function cerrarFormulario() {
+    document.getElementById("fondo-modal").style.display = "none";  // Cierra el modal
+}
 
 
     function mostrarDetalle(id) {
@@ -162,6 +168,17 @@
     function cerrarDetalle(id) {
         document.getElementById("modal-" + id).classList.remove("activo");
     }
+
+    // Cerrar el modal al hacer clic fuera de él
+    window.onclick = function(event) {
+        var modals = document.querySelectorAll('.modal-overlay');
+        modals.forEach(function(modal) {
+            if (event.target == modal) {
+                modal.classList.remove("activo");
+            }
+        });
+    }
+
 </script>
 
 {% endblock %}

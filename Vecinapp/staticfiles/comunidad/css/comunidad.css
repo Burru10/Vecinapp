@@ -1,4 +1,104 @@
-/* Diseño general de tareas */
+/*MI COMUNIDAD*/
+.card.expanded .card-text {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    max-height: none;
+}
+
+
+.card-expand {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 200px;
+}
+
+.card-expand.expanded {
+    max-height: 1000px;
+}
+
+.btn-realizar {
+    background-color: rgb(39, 196, 196);
+    color: white;
+    font-weight: bold;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-realizar:hover {
+    background-color: rgb(33, 170, 170);
+}
+
+/* Fondo oscuro cuando se abre el formulario */
+#fondo-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Formulario de tarea */
+#formulario-tarea {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    position: relative;
+    animation: fadeSlide 0.3s ease-in-out;
+}
+
+#formulario-tarea h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+#formulario-tarea .btn {
+    display: block;
+    margin: 0 auto;
+    background-color: rgb(39, 196, 196);
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#formulario-tarea .btn:hover {
+    background-color: rgb(33, 170, 170);
+}
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Botón de cerrar */
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.options {
+    margin: 50px;
+}
+
 .tasks {
     margin-top: 75px;
     margin-bottom: 75px;
@@ -10,6 +110,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease;
     background: #fff;
+    cursor: pointer;
 }
 
 .tasks .card:hover {
@@ -26,22 +127,13 @@
     font-size: 0.95rem;
     color: #444;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 4.5em;
 }
 
-.card.expanded .card-text {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-    
-    max-height: none;
-}
-
-/* Etiquetas de estado */
 .tasks .badge-estado {
     padding: 5px 12px;
     border-radius: 12px;
@@ -66,24 +158,91 @@
     color: #1976d2;
 }
 
-/* Autor del mensaje */
 .tasks .autor {
     font-size: 0.85rem;
     color: #888;
     margin-top: 10px;
 }
 
-.card-expand {
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-detalle {
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    max-width: 520px;
+    width: 90%;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-detalle h4 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #27c4c4;
+}
+
+.modal-detalle p {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #444;
+}
+
+/* Botón de cerrar modal */
+.cerrar {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    max-height: 200px;
+    color: #999;
+}
+   
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-.card-expand.expanded {
-    max-height: 1000px;
+/* Menú flotante */
+
+.fab-menu {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.btn-realizar {
-    margin-top: 15px;
+.fab-menu a {
+    background-color: rgb(39, 196, 196);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.fab-menu a:hover {
+    background-color: rgb(47, 228, 228);
 }

@@ -23,8 +23,6 @@ urlpatterns = [
     path('', include('Web.urls')),
 
     path('autenticacion/', include('Autenticacion.urls')),
-    
-    path('contacto/', include('Contacto.urls')),
 
     path('comunidad/', include('Comunidad.urls')),
 

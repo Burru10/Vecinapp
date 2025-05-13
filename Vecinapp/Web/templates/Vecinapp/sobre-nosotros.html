@@ -1,178 +1,157 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
+{% block head %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}
 {% block content %}
-
 <style>
-    /* Estilo general para el contenedor */
-    .sobre-nosotros-wrapper {
-        background: #f0f4f8;
-        padding-top: 130px;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-    }
-
-    .sobre-nosotros-contenido {
-        background: #ffffff;
-        padding: 40px;
-        border-radius: 16px;
-        width: 100%;
-        max-width: 800px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-        font-weight: 600;
-        color: #1e3a5f;
-        margin-bottom: 20px;
-    }
-
-    h3 {
-        font-weight: 700;
-        color: #1e3a5f;
-        text-align: center;
-        margin-bottom: 50px;
-    }
-
-    p {
-        font-size: 1rem;
-        color: #555;
-        line-height: 1.6;
-    }
-
-    
-
-    .btn-custom {
-        background-color: #4a90e2;
-        color: white;
-        font-weight: 500;
-        border-radius: 20px;
-        font-size: 1rem;
-        padding: 10px 20px;
-        text-decoration: none;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-custom:hover {
-        background-color: #357abd;
-        transform: scale(1.05);
-    }
-
-    /* Estilo de los enlaces */
-    .btn-link {
-        color: #4a90e2;
-        font-weight: 500;
-        font-size: 1rem;
-    }
-
-    .btn-link:hover {
-        color: #357abd;
-        text-decoration: underline;
-    }
-
-    .section-title {
-        margin-top: 40px;
-    }
-
-    .section-title::before {
-        content: "";
-        display: block;
-        height: 3px;
-        width: 50px;
-        background: #4a90e2;
-        margin-bottom: 20px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .sobre-nosotros-contenido {
-            padding: 30px;
-        }
-
-        .section-title {
-            text-align: center;
-        }
-    }
+  :root {
+    --primary-color: #27c4c4;
+    --primary-dark: #1ea8a8;
+    --bg-light: #f0f4f8;
+    --card-bg: #fff;
+    --text-dark: #1e3a5f;
+    --text-light: #555;
+    --radius: 16px;
+    --transition: 0.3s ease;
+  }
+  .about-wrapper {
+    background: var(--bg-light);
+    padding: 125px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .about-container {
+    background: var(--card-bg);
+    max-width: 800px;
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  .about-hero {
+    background: url('{% static "images/about-banner.jpg" %}') center/cover no-repeat;
+    height: 200px;
+    position: relative;
+  }
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(39,196,196,0.6);
+  }
+  .about-hero h3 {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+    margin: 0;
+    font-size: 2rem;
+    z-index: 1;
+  }
+  .about-content {
+    padding: 40px;
+  }
+  .section {
+    margin-bottom: 40px;
+  }
+  .section h2 {
+    font-size: 1.75rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .section h2::before {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background: var(--primary-color);
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    border-radius: var(--radius);
+  }
+  .section p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .section ul {
+    list-style: disc;
+    padding-left: 1.2rem;
+    color: var(--text-light);
+  }
+  .section ul li {
+    margin-bottom: 8px;
+  }
+  .cta { text-align: center; margin-top: 20px; }
+  .btn-cta {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 500;
+    border-radius: 50px;
+    padding: 12px 28px;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .btn-cta:hover { background: var(--primary-dark); }
+  @media (max-width: 768px) {
+    .about-content { padding: 30px; }
+    .about-hero h3 { font-size: 1.5rem; }
+  }
 </style>
 
-<div class="sobre-nosotros-wrapper">
-    <div class="sobre-nosotros-contenido mb-5">
-        <h3>Sobre Nosotros</h3>
-
-        <section class="section-title">
-            <h2>¿Quiénes Somos?</h2>
-            <p>
-                En <strong>Vecinapp</strong>, somos un equipo comprometido con la transformación digital de las comunidades de vecinos. Nuestro objetivo es facilitar la comunicación, gestión y convivencia entre los residentes, creando una plataforma intuitiva, segura y eficiente.
-            </p>
-            <p>
-                La idea de Vecinapp surge de la necesidad de mejorar la organización en comunidades residenciales, eliminando las barreras de comunicación y optimizando la administración de recursos. Creemos en el poder de la tecnología para conectar a las personas y hacer más accesible la gestión vecinal.
-            </p>
-        </section>
-
-        <section class="section-title">
-            <h2>Nuestro Objetivo</h2>
-            <p>
-                Nuestra misión es proporcionar una herramienta integral que permita a los vecinos gestionar sus comunidades de manera eficiente, fomentando una convivencia armoniosa y transparente.
-            </p>
-            <ul>
-                <li style="list-style-type: none;"><strong>Facilitar la comunicación:</strong> Permitir una comunicación fluida entre vecinos, administradores y proveedores de servicios.</li>
-                <li style="list-style-type: none;"><strong>Optimizar la gestión:</strong> Dar herramientas a los administradores para organizar gastos, incidencias y normativas.</li>
-                <li style="list-style-type: none;"><strong>Seguridad y privacidad:</strong> Garantizar que cada comunidad tenga un espacio seguro y exclusivo.</li>
-                <li style="list-style-type: none;"><strong>Accesibilidad:</strong> Crear una plataforma fácil de usar para personas de todas las edades.</li>
-            </ul>
-        </section>
-
-        <section class="section-title">
-            <h2>Nuestros Valores</h2>
-            <p>
-                Nos regimos por valores fundamentales que guían cada aspecto del desarrollo de Vecinapp:
-            </p>
-            <ul>
-                <li style="list-style-type: none;"><strong>Innovación:</strong> Apostamos por la tecnología para mejorar la convivencia y administración de comunidades.</li>
-                <li style="list-style-type: none;"><strong>Compromiso:</strong> Trabajamos con dedicación para ofrecer una plataforma estable y eficiente.</li>
-                <li style="list-style-type: none;"><strong>Transparencia:</strong> Creemos en la comunicación abierta y accesible entre todos los usuarios.</li>
-                <li style="list-style-type: none;"><strong>Seguridad:</strong> Protegemos la información de nuestros usuarios con los más altos estándares de seguridad.</li>
-            </ul>
-        </section>
-
-        <section class="section-title">
-            <h2>¿Qué Ofrecemos?</h2>
-            <p>Vecinapp proporciona una serie de funcionalidades diseñadas para mejorar la administración de las comunidades:</p>
-            <ul>
-                <li style="list-style-type: none;">📌 Gestión de comunidades: Creación y administración de comunidades vecinales.</li>
-                <li style="list-style-type: none;">📌 Sistema de autenticación: Registro, inicio de sesión y recuperación de contraseñas.</li>
-                <li style="list-style-type: none;">📌 Foros de discusión: Espacios donde los vecinos pueden debatir y organizarse.</li>
-                <li style="list-style-type: none;">📌 Mensajería interna: Comunicación segura entre vecinos y administradores.</li>
-                <li style="list-style-type: none;">📌 Gestión de incidencias: Reporte y seguimiento de problemas en la comunidad.</li>
-            </ul>
-        </section>
-
-        <section class="section-title">
-            <h2>Nuestro Compromiso con el Futuro</h2>
-            <p>
-                En Vecinapp, creemos en la evolución continua. Nuestro equipo trabaja constantemente en nuevas funcionalidades y mejoras para que la experiencia de los usuarios sea cada vez más eficiente y amigable.
-            </p>
-            <p>
-                Para el futuro, planeamos integrar nuevas tecnologías como la automatización de pagos de cuotas comunitarias, notificaciones inteligentes y sistemas de votación digital para decisiones comunitarias.
-            </p>
-        </section>
-
-        <section class="section-title">
-            <h2>Únete a Nosotros</h2>
-            <p>
-                Si compartes nuestra visión de una comunidad más organizada y conectada, te invitamos a formar parte de Vecinapp. Nuestra plataforma está diseñada para hacer la vida más fácil, brindando herramientas eficaces para la gestión vecinal.
-            </p>
-            <p class="text-center mt-4">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'crear_comunidad' %}" class="btn btn-custom btn-lg">Crea tu comunidad ahora</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-custom btn-lg">Únete a nosotros</a>
-                {% endif %}
-            </p>
-        </section>
-
+<section class="about-wrapper">
+  <div class="about-container">
+    <div class="about-hero">
+      <h3>Sobre Nosotros</h3>
     </div>
-</div>
+    <div class="about-content">
+      <div class="section">
+        <h2>¿Quiénes Somos?</h2>
+        <p>En <strong>Vecinapp</strong>, somos un equipo comprometido con la transformación digital de las comunidades de vecinos. Nuestro objetivo es facilitar la comunicación, gestión y convivencia entre los residentes, creando una plataforma intuitiva, segura y eficiente.</p>
+        <p>La idea de Vecinapp surge de la necesidad de mejorar la organización en comunidades residenciales, eliminando las barreras de comunicación y optimizando la administración de recursos. Creemos en el poder de la tecnología para conectar a las personas y hacer más accesible la gestión vecinal.</p>
+      </div>
+      <div class="section">
+        <h2>Nuestro Objetivo</h2>
+        <p>Nuestra misión es proporcionar una herramienta integral que permita a los vecinos gestionar sus comunidades de manera eficiente, fomentando una convivencia armoniosa y transparente.</p>
+      </div>
+      <div class="section">
+        <h2>Nuestros Valores</h2>
+        <ul>
+          <li><strong>Innovación:</strong> Apostamos por la tecnología para mejorar la convivencia y administración de comunidades.</li>
+          <li><strong>Compromiso:</strong> Trabajamos con dedicación para ofrecer una plataforma estable y eficiente.</li>
+          <li><strong>Transparencia:</strong> Creemos en la comunicación abierta y accesible entre todos los usuarios.</li>
+          <li><strong>Seguridad:</strong> Protegemos la información de nuestros usuarios con los más altos estándares de seguridad.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>¿Qué Ofrecemos?</h2>
+        <ul>
+          <li>Creación y administración de comunidades vecinales.</li>
+          <li>Sistema de autenticación: registro, inicio de sesión y recuperación de contraseñas.</li>
+          <li>Foros de discusión para debatir y organizar eventos.</li>
+          <li>Mensajería interna para comunicación segura entre vecinos.</li>
+          <li>Publicación y seguimiento de solicitudes de ayuda en tareas cotidianas.</li>
+          <li>Notificaciones en tiempo real para no perder novedades.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>Nuestro Compromiso con el Futuro</h2>
+        <p>En Vecinapp, creemos en la evolución continua. Nuestro equipo trabaja constantemente en nuevas funcionalidades y mejoras para que la experiencia de los usuarios sea cada vez más eficiente y amigable.</p>
+        <p>Para el futuro, planeamos integrar notificaciones inteligentes, sistema de reputación de vecinos y recordatorios automáticos de tareas.</p>
+      </div>
+      <div class="cta">
+        {% if user.is_authenticated %}
+          <a href="{% url 'crear_comunidad' %}" class="btn-cta">Crea tu comunidad ahora</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn-cta">Únete a nosotros</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

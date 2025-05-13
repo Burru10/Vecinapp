@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tied1)rzq24l%7ybrya4w944@w*l)t3^!l^hipqy%ys#$qvgu+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
 
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Web',
     'Autenticacion',
-    'Contacto',
     'crispy_forms',
     'crispy_bootstrap5',
     'Comunidad',
@@ -151,4 +150,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "vecinappoficial@gmail.com"
 EMAIL_HOST_PASSWORD = "lujp bvmj sbqj lswq"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

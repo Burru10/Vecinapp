@@ -2,26 +2,83 @@
 <html>
 <head>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px; }
-        .email-container {
-            max-width: 600px; margin: auto; background: white; padding: 30px;
-            border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            color:#2c3e50 ;
         }
-        h2 { color: #2c3e50; }
-        p { color: #555; }
+        .email-wrapper {
+            padding: 40px 20px;
+            background-color: #f2f2f2;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-height: 80px;
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        p {
+            color: #444;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
         .btn {
-            display: inline-block; padding: 10px 20px; margin-top: 20px;
-            background-color: #28a745; color: white; text-decoration: none;
-            border-radius: 5px;
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #27c4c4;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #1aa6a6;
         }
     </style>
 </head>
 <body>
-<div class="email-container">
-    <h2>¡Hola {{ user.first_name }}!</h2>
-    <p>Gracias por registrarte en <strong>Vecinapp</strong>. Estamos encantados de darte la bienvenida a nuestra comunidad de ayuda entre vecinos.</p>
-    <p>Desde ahora podrás publicar solicitudes, ofrecer ayuda y conectar con personas cerca de ti.</p>
-    <a href="http://127.0.0.1:8000/" class="btn">Ir a Vecinapp</a>
+<div class="email-wrapper">
+    <div class="email-container">
+        <div class="logo">
+            <img src="https://i.imgur.com/EwSWlXv.png" alt="Vecinapp Logo">
+        </div>
+
+        <h2>¡Bienvenido/a, {{ user.first_name }}!</h2>
+        <p>Nos alegra que formes parte de <strong>Vecinapp</strong>, la red colaborativa que une a vecinos como tú.</p>
+        <p>Desde ahora podrás:</p>
+        <ul>
+            <li>Publicar solicitudes de ayuda fácilmente</li>
+            <li>Ofrecer apoyo a quienes lo necesiten</li>
+            <li>Conectar con tu comunidad de forma segura y cercana</li>
+        </ul>
+        <p>Juntos hacemos del barrio un lugar mejor. Tu participación es el primer paso para crear una red solidaria y eficaz.</p>
+        <div class="btn-container">
+            <a href="http://127.0.0.1:8000/" class="btn">Ir a Vecinapp</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

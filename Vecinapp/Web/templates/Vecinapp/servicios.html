@@ -1,5 +1,379 @@
 {% extends 'Vecinapp/base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Servicios</h2>
+
+<style>
+    :root {
+        --primary-color: #27c4c4;
+        --primary-dark: #1ea8a8;
+        --bg-light: #f5f9fc;
+        --text-dark: #1e3a5f;
+        --text-light: #555;
+        --card-radius: 16px;
+        --transition-time: 0.3s;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background: var(--bg-light);
+        color: var(--text-dark);
+    }
+
+    .servicios-wrapper {
+        padding-top: 125px;
+        padding-bottom: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: var(--bg-light);
+    }
+
+    .servicios-contenido {
+        max-width: 1000px;
+        width: 100%;
+        background: white;
+        border-radius: var(--card-radius);
+        padding: 60px 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp var(--transition-time) ease;
+    }
+
+    h2,
+    h3 {
+        text-align: center;
+        margin: 0 0 20px;
+        font-weight: 600;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        color: var(--primary-dark);
+    }
+
+    h3 {
+        font-size: 1.75rem;
+        color: var(--text-dark);
+    }
+
+    .intro {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        line-height: 1.6;
+    }
+
+    .servicios-lista {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .servicio-item {
+        background: white;
+        border-radius: var(--card-radius);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        padding: 40px 30px;
+        text-align: center;
+        transition: transform var(--transition-time) ease, box-shadow var(--transition-time) ease;
+    }
+
+    .servicio-item:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .servicio-item i {
+        font-size: 3.5rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+
+    .servicio-item h4 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--text-dark);
+    }
+
+    .servicio-item p {
+        color: var(--text-light);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .btn-action {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 500;
+        border-radius: 50px;
+        padding: 15px 30px;
+        text-decoration: none;
+        transition: background-color var(--transition-time) ease, transform var(--transition-time) ease;
+        margin-top: 30px;
+    }
+
+    .btn-action:hover {
+        background-color: var(--primary-dark);
+        transform: scale(1.05);
+    }
+
+    /* Cómo funciona */
+    .pasos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 60px;
+    }
+
+    .paso {
+        flex: 1 1 30%;
+        background: white;
+        margin: 10px;
+        padding: 30px;
+        border-radius: var(--card-radius);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .paso i {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+    }
+
+    .paso h5 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+    }
+
+    .paso p {
+        color: var(--text-light);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* FAQ */
+    .faq {
+        margin-top: 60px;
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .servicios-contenido {
+            padding: 40px 20px;
+        }
+
+        .pasos {
+            flex-direction: column;
+        }
+
+        .paso {
+            margin: 10px 0;
+        }
+    }
+
+    .cta-container {
+        text-align: center;
+        margin: 3rem 0;
+        /* 3rem arriba y abajo, en vez de 40px solo arriba */
+    }
+</style>
+
+<section class="servicios-wrapper" aria-labelledby="servicios-title">
+    <div class="servicios-contenido">
+        <h2 id="servicios-title">Haz la vida más fácil en tu vecindario</h2>
+        <p class="intro">Vecinapp conecta a vecinos que necesitan ayuda con tareas cotidianas y fomenta la colaboración
+            mediante herramientas sencillas: solicita o ofrece ayuda, chatea en tiempo real y recibe notificaciones al
+            instante.</p>
+
+        <section class="servicios-lista">
+            <article class="servicio-item">
+                <i class="bi bi-houses-fill"></i>
+                <h4>Crear o Unirse a Comunidad</h4>
+                <p>Forma parte de tu vecindario en un par de clics.</p>
+            </article>
+            <article class="servicio-item">
+                <i class="bi bi-list-task"></i>
+                <h4>Publicar Solicitudes</h4>
+                <p>Pide ayuda con tareas y proyectos de forma clara.</p>
+            </article>
+            <article class="servicio-item">
+                <i class="bi bi-eye"></i>
+                <h4>Ver Solicitudes</h4>
+                <p>Explora lo que tus vecinos necesitan y ofrece tu apoyo.</p>
+            </article>
+            <article class="servicio-item">
+                <i class="bi bi-chat-dots"></i>
+                <h4>Chat en Tiempo Real</h4>
+                <p>Comunicación instantánea para coordinar tareas.</p>
+            </article>
+            <article class="servicio-item">
+                <i class="bi bi-bell"></i>
+                <h4>Notificaciones</h4>
+                <p>No te pierdas ninguna solicitud ni mensaje.</p>
+            </article>
+            <article class="servicio-item">
+                <i class="bi bi-phone"></i>
+                <h4>Multidispositivo</h4>
+                <p>Accede desde móvil, tablet o escritorio.</p>
+            </article>
+        </section>
+
+        <div class="cta-container">
+            {% if user.is_authenticated %}
+            <a href="{% url 'crear_comunidad' %}" class="btn-action" role="button">
+                Crea tu comunidad ahora
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn-action" role="button">
+                Únete a nosotros
+            </a>
+            {% endif %}
+        </div>
+
+
+        <h3>Cómo funciona</h3>
+        <div class="pasos">
+            <div class="paso">
+                <i class="bi bi-person-plus"></i>
+                <h5>1. Únete o crea</h5>
+                <p>Define tu comunidad y añade a tus vecinos.</p>
+            </div>
+            <div class="paso">
+                <i class="bi bi-pencil-square"></i>
+                <h5>2. Publica tu solicitud</h5>
+                <p>Describe la tarea para recibir ayuda.</p>
+            </div>
+            <div class="paso">
+                <i class="bi bi-chat-dots"></i>
+                <h5>3. Coordina en chat</h5>
+                <p>Comunícate en tiempo real hasta completar la tarea.</p>
+            </div>
+        </div>
+
+        <h3 class="faq">Preguntas Frecuentes</h3>
+        <div class="accordion" id="faqAccordion">
+
+            <!-- 1. Unirse o crear -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        ¿Cómo me uno o creo mi comunidad?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="faq1"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Puedes <strong>crear</strong> tu propia comunidad o <strong>buscar</strong> por tu localidad y
+                        solicitar unirte. ¡Así de fácil!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Publicar tarea -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        ¿Cómo público una solicitud de ayuda?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Dentro de tu comunidad, haz clic en “Añadir tarea”, elige categoría, escribe la descripción y
+                        pulsa “Crear tarea”. ¡Listo!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Ver solicitudes -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        ¿Dónde veo lo que piden otros vecinos?
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        En la pestaña “Comunidad” aparece la lista de todas las solicitudes abiertas de tus vecinos. Además podrás filtrar las tareas por categorías para ver solo las que te interesan.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Ver chats -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        ¿Dónde puedo ver los chats?
+                    </button>
+                </h2>
+                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Dentro de la comunidad encontrarás la opción “Mensajes”, donde podrás leer y enviar chats con
+                        tus vecinos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Editar o eliminar tarea -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                        ¿Cómo edito o elimino una tarea que creé?
+                    </button>
+                </h2>
+                <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="faq5"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Ve a “Mis tareas”, localiza la solicitud y usa los botones de editar o eliminar según necesites.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Marcar tarea completada -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq6">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                        ¿Cómo marco una tarea como completada?
+                    </button>
+                </h2>
+                <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="faq6"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Dentro de la solicitud hay un botón “Marcar como completada” que cierra la tarea y la mueve al
+                        historial.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</section>
+
 {% endblock %}
