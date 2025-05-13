@@ -112,6 +112,18 @@
     <a href="">📋 Mis tareas</a>
 </div>
 
+<div class="fab-container">
+    <button class="fab-toggle">➕</button>
+    <div class="fab-actions">
+      <a href="{% url 'mensajes' comunidad.id %}" class="fab-item">💬</a>
+      <a href="{% url 'notificaciones_usuario' %}" class="fab-item">🔔</a>
+      {% if user.administrador %}
+        <a href="{% url 'notificaciones_admin' %}" class="fab-item">🛠</a>
+      {% endif %}
+      <a href="#" class="fab-item">📋</a>
+    </div>
+  </div>
+  
 
 <!-- Fondo oscuro y formulario centrado -->
 <div id="fondo-modal" style="display: none;">
@@ -178,6 +190,44 @@ function cerrarFormulario() {
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+  const container   = document.querySelector('.fab-container');
+  const toggle      = container.querySelector('.fab-toggle');
+  const actions     = container.querySelector('.fab-actions');
+  const RADIUS      = 90;   // radio en px
+  const START_ANGLE = 110;   // ángulo inicial
+  const END_ANGLE   = 20;   // ángulo final
+  const ARC_WIDTH   = END_ANGLE - START_ANGLE; // negativo para invertir dirección
+
+  toggle.addEventListener('click', () => {
+    container.classList.toggle('open');
+    const items = Array.from(actions.children);
+    const n     = items.length;
+
+    if (container.classList.contains('open')) {
+      // paso negativo: distribuye desde START hasta END
+      const step = n > 1 ? ARC_WIDTH / (n - 1) : 0;
+
+      items.forEach((item, i) => {
+        const angleDeg = START_ANGLE + step * i;      // 80°, ..., 10°
+        const rad      = angleDeg * Math.PI / 180;
+        const x        = RADIUS * Math.cos(rad);
+        const y        = RADIUS * Math.sin(rad);
+
+        item.style.transform = 
+          `translate(${x}px, ${-y}px) scale(1)`;
+        item.style.opacity   = '1';
+      });
+    } else {
+      // volver al centro y ocultar
+      items.forEach(item => {
+        item.style.transform = 'translate(0,0) scale(0)';
+        item.style.opacity   = '0';
+      });
+    }
+  });
+});
 
 </script>
 
