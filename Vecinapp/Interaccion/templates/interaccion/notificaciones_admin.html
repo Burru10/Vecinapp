@@ -85,6 +85,9 @@
 
 <div class="notificaciones-wrapper">
     <div class="notificaciones-contenido">
+        <a href="{% url 'mi_comunidad' comunidad.id %}" class="d-inline-block text-info mb-3">
+            <i class="bi bi-arrow-left"></i> Volver a {{ comunidad.nombre }}
+        </a>
         <h3>Panel de Administración - {{ comunidad.nombre }}</h3>
 
         <!-- Sección: Solicitudes de unión -->

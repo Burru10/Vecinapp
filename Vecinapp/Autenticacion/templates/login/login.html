@@ -4,6 +4,27 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<style>
+.btn-action {
+    display: inline-block;
+    background-color: #27c4c4;
+    color: white;
+    font-weight: 500;
+    border-radius: 50px;
+    border: none;
+    padding: 12px 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 30px;
+}
+
+.btn-action:hover {
+    background-color: #1ea8a8;
+    transform: scale(1.05);
+}
+</style>
+
 <div class="container" style="padding-top: 130px; margin-bottom: 50px;">
     <div class="container" style="padding: 40px; box-shadow:  0 0 10px rgba(0, 0, 0, 0.3);border-radius: 10px;">
         <div class="row justify-content-center">
@@ -16,14 +37,14 @@
                     {% csrf_token %}
                     {{form|crispy}}
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary mt-3">Iniciar sesión</button>
+                        <button type="submit" class="btn-action mt-3">Iniciar sesión</button>
                     </div>
                 </form>
                 <div class="mt-4">
-                    <a href="{% url 'password_reset' %}">Olvidaste tu contraseña?</a>
+                    <a style="color: #27c4c4;" href="{% url 'password_reset' %}">Olvidaste tu contraseña?</a>
                 </div>
                 <div class="mt-4">
-                    <p>No tienes cuenta? <a href="{% url 'autenticacion' %}">Regístrate</a></p>
+                    <p>No tienes cuenta? <a style="color: #27c4c4;" href="{% url 'autenticacion' %}">Regístrate</a></p>
                 </div>
                     
             </div>

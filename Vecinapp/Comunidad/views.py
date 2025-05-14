@@ -320,3 +320,18 @@ def finalizar_tarea(request, tarea_id):
     )
     tarea.delete()
     return redirect('mis_tareas')
+
+
+
+def editar_tarea(request, tarea_id):
+    tarea = get_object_or_404(Publicacion, id=tarea_id)
+
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST, instance=tarea)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_tarea', tarea_id=tarea.id)  # Redirigir a la vista de detalles
+    else:
+        form = PublicacionForm(instance=tarea)
+
+    return render(request, 'comunidad/editar_tarea.html', {'form': form, 'tarea': tarea})

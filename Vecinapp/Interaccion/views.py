@@ -140,9 +140,14 @@ def notificaciones_usuario(request, comunidad_id):
         usuario=request.user,
         aceptada=True
     ):
+        # Marcar como leído
+        j.visto_usuario = True
+        j.save()
+
         notifications.append({
             'fecha': j.fecha,
-            'texto': f'Has ingresado a la comunidad {comunidad.nombre}'
+            'texto': f'Has ingresado a la comunidad {comunidad.nombre}',
+            'visto_usuario': j.visto_usuario
         })
 
     # 2) Tarea aceptada
@@ -156,7 +161,8 @@ def notificaciones_usuario(request, comunidad_id):
             'texto': (
                 f'{t.realizada_por.username} ha aceptado tu tarea: '
                 f'{t.categoria.nombre} – {t.descripcion[:30]}'
-            )
+            ),
+            'visto_usuario': True  # Asumimos que se ve la notificación cuando se marca
         })
 
     # 3) Tarea finalizada
@@ -171,29 +177,34 @@ def notificaciones_usuario(request, comunidad_id):
             'texto': (
                 f'{t.realizada_por.username} ha finalizado tu tarea: '
                 f'{t.categoria.nombre} – {t.descripcion[:30]}'
-            )
+            ),
+            'visto_usuario': True
         })
 
     # 4) Notificaciones de salida
     for s in NotificacionSalida.objects.filter(comunidad=comunidad, usuario=request.user):
         notifications.append({
             'fecha': s.fecha,
-            'texto': s.mensaje
+            'texto': s.mensaje,
+            'visto_usuario': True
         })
 
+    # 5) Expulsión de usuario
     for e in Expulsion.objects.filter(comunidad=comunidad):
         notifications.append({
             'fecha': e.fecha,
-            'texto': f'{e.admin.user.username} ha expulsado a {e.usuario.username}'
+            'texto': f'{e.admin.user.username} ha expulsado a {e.usuario.username}',
+            'visto_usuario': True
         })
 
-    # ordenar por fecha descendente
+    # Ordenar por fecha descendente
     notifications.sort(key=lambda x: x['fecha'], reverse=True)
 
     return render(request, 'interaccion/notificaciones_usuario.html', {
         'comunidad': comunidad,
         'notifications': notifications,
     })
+
 
 
 def gestionar_solicitud(request, solicitud_id, decision):

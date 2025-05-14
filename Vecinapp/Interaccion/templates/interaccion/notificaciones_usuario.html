@@ -41,6 +41,19 @@
     white-space: nowrap;
     margin-left: 1rem;
   }
+  /* Indicador de notificación no leída */
+  .notification-card.unread {
+    background-color: #fff8e1;  /* Color destacado para las no leídas */
+  }
+  .notification-badge {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 8px;
+  }
+
   @media (max-width: 576px) {
     .notifications-header { font-size: 1.75rem; }
     .notification-card { flex-direction: column; align-items: flex-start; }
@@ -56,8 +69,13 @@
 
   <ul class="p-0">
     {% for n in notifications %}
-    <li class="notification-card">
-      <div>{{ n.texto }}</div>
+    <li class="notification-card {% if not n.visto_usuario %}unread{% endif %}">
+      <div>
+        <div>{{ n.texto }}</div>
+        {% if not n.visto_usuario %}
+          <span class="notification-badge"></span>  <!-- Punto rojo si no se ha leído -->
+        {% endif %}
+      </div>
       <div class="notification-time">{{ n.fecha|date:"d/m/Y H:i" }}</div>
     </li>
     {% empty %}

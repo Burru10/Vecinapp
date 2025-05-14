@@ -94,6 +94,7 @@
             {% endif %}
           </div>
           <div class="detail-row text-end">
+            <a href="{% url 'editar_tarea' tarea.id %}" class="btn btn-warning">Editar tarea</a>
             <a href="{% url 'mis_tareas' %}" class="btn btn-outline-secondary">&larr; Volver a Mis Tareas</a>
           </div>
         </div>

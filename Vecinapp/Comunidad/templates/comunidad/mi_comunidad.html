@@ -5,10 +5,10 @@
 
 
 
-<div class="container" style="padding-top: 130px;">
-    <a class="text-start" href="{% url 'comunidad' %}" style="text-decoration: none; color: rgb(39, 196, 196);"><i
+<div class="container" style="padding-top: 150px;">
+    <a class="text-start mb-5" href="{% url 'comunidad' %}" style="text-decoration: none; color: rgb(39, 196, 196);"><i
             class="bi bi-arrow-left"></i> Volver atrás</a>
-    <h1 class="text-center">Bienvenido a {{ comunidad.nombre }}</h1>
+    <h1 class="text-center mt-5 mb-3">Bienvenido a {{ comunidad.nombre }}</h1>
     <h3 class="mb-4 text-center">Tareas disponibles:</h3>
 </div>
 <!-- Botón arriba a la derecha -->
@@ -121,18 +121,16 @@
     <button class="fab-toggle">➕</button>
     <div class="fab-actions">
       <a href="{% url 'mensajes' comunidad.id %}" class="fab-item">💬</a>
-      <a href="{% url 'notificaciones_usuario' comunidad.id %}">
+      <a href="{% url 'notificaciones_usuario' comunidad.id %}" class="fab-item">
         🔔
-        {% if user_notif_count %}<span class="notification-dot"></span>{% endif %}
       </a>
       {% if comunidad.administrador.user == user %}
-        <a href="{% url 'notificaciones_admin' comunidad.id %}">
+        <a href="{% url 'notificaciones_admin' comunidad.id %}" class="fab-item">
           🛠
-          {% if admin_notif_count %}<span class="notification-dot"></span>{% endif %}
         </a>
       {% endif %}
 
-      <a href="#" class="fab-item">📋</a>
+      <a href="{% url 'mis_tareas' %}" class="fab-item">📋</a>
     </div>
   </div>
   
@@ -203,14 +201,14 @@ function cerrarFormulario() {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const container   = document.querySelector('.fab-container');
   const toggle      = container.querySelector('.fab-toggle');
   const actions     = container.querySelector('.fab-actions');
-  const RADIUS      = 90;   // radio en px
-  const START_ANGLE = 110;   // ángulo inicial
-  const END_ANGLE   = 20;   // ángulo final
-  const ARC_WIDTH   = END_ANGLE - START_ANGLE; // negativo para invertir dirección
+  const RADIUS      = 90;   // Radio en px
+  const START_ANGLE = 100;   // Ángulo inicial
+  const END_ANGLE   = 0;   // Ángulo final
+  const ARC_WIDTH   = END_ANGLE - START_ANGLE; // Negativo para invertir la dirección
 
   toggle.addEventListener('click', () => {
     container.classList.toggle('open');
@@ -218,7 +216,7 @@ function cerrarFormulario() {
     const n     = items.length;
 
     if (container.classList.contains('open')) {
-      // paso negativo: distribuye desde START hasta END
+      // Paso negativo: distribuye desde START hasta END
       const step = n > 1 ? ARC_WIDTH / (n - 1) : 0;
 
       items.forEach((item, i) => {
@@ -228,13 +226,13 @@ function cerrarFormulario() {
         const y        = RADIUS * Math.sin(rad);
 
         item.style.transform = 
-          `translate(${x}px, ${-y}px) scale(1)`;
+          `translate(${x}px, ${-y}px) scale(1)`; // Asegura que los ítems estén en la forma correcta
         item.style.opacity   = '1';
       });
     } else {
-      // volver al centro y ocultar
+      // Volver al centro y ocultar
       items.forEach(item => {
-        item.style.transform = 'translate(0,0) scale(0)';
+        item.style.transform = 'translate(0, 0) scale(0)';
         item.style.opacity   = '0';
       });
     }

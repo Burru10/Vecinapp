@@ -78,7 +78,7 @@ body {
 .social-icons a {
     display: inline-block;
     margin: 5px;
-    font-size: 18px;
+    font-size: 1.25rem;
     color: #555;
     transition: 0.3s;
 }
@@ -499,10 +499,10 @@ body {
      ----------------------------------- */
 /* por defecto oculto */
 .fab-container {
-    display: none;
+    display: none;  /* Ocultar en pantallas grandes */
 }
 
-/* muestra el radial y centra origen en el toggle */
+/* Solo mostrar en pantallas pequeñas */
 @media (max-width: 1024px) {
     .fab-container {
         display: block;
@@ -514,7 +514,7 @@ body {
         z-index: 1000;
     }
 
-    /* toggle principal */
+    /* Toggle principal */
     .fab-toggle {
         width: 100%;
         height: 100%;
@@ -532,32 +532,37 @@ body {
         transform: rotate(45deg);
     }
 
+    /* Ajustar la posición de los ítems */
     .fab-actions {
         position: absolute;
-        bottom: 25px;  /* 50px/2 del contenedor */
-        left:   25px;
-        width: 0; height: 0;
-      }
-      
-      .fab-item {
+        bottom: 65px;  /* Ajustar para que no se tapen con el FAB */
+        left: 50%;
+        transform: translateX(-50%); /* Centrar el contenedor de las acciones */
+        width: 0; 
+        height: 0;
+    }
+
+    .fab-item {
         position: absolute;
-        width: 40px; height: 40px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         background-color: rgb(39, 196, 196);
-        display: flex; align-items: center; justify-content: center;
-        color: white; text-decoration: none;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         opacity: 0;
-        transform: translate(0,0) scale(0);
-        transform-origin: center center;
+        transform: translate(0, 0) scale(0);
         transition: transform 0.3s ease, opacity 0.3s ease;
-      }
-      
-      /* Cuando esté abierto, cada ítem recupera escala y opacidad */
-      .fab-container.open .fab-item {
+    }
+
+    .fab-container.open .fab-item {
         opacity: 1;
-        transform: scale(1) translate(0,0); /* JS reescribirá el translate */
-      }
+        transform: scale(1) translate(0, 0); /* JS reescribirá el translate */
+    }
 }
 
 .notification-dot {
