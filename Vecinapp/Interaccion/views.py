@@ -77,14 +77,15 @@ def actualizar_bandeja(request, comunidad_id):
     )
 
     html = render_to_string('interaccion/bandeja_ajax.html', {
-        'datos_usuarios': datos_usuarios
+        'datos_usuarios': datos_usuarios,
+        'comunidad': comunidad
     })
     return JsonResponse({'html': html})
 
 
-def conversacion(request, usuario_id):
+def conversacion(request, comunidad_id, usuario_id):
+    comunidad = get_object_or_404(Comunidad, id=comunidad_id, usuarios=request.user)
     otro_usuario = get_object_or_404(User, id=usuario_id)
-    comunidad = request.user.comunidades.first()
 
     mensajes = Mensaje.objects.filter(
         Q(remitente=request.user, destinatario=otro_usuario) |

@@ -390,12 +390,13 @@ body {
     margin: 50px;
 }
 
-.tasks {
+.main-tasks {
     margin-top: 75px;
-    margin-bottom: 75px;
+    margin-bottom: 100px;
+    min-height: 30vh;
 }
 
-.tasks .card {
+.main-tasks .card {
     border: none;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -404,17 +405,17 @@ body {
     cursor: pointer;
 }
 
-.tasks .card:hover {
+.main-tasks .card:hover {
     transform: scale(1.02);
 }
 
-.tasks .card-title {
+.main-tasks .card-title {
     font-weight: bold;
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
 
-.tasks .card-text {
+.main-tasks .card-text {
     font-size: 0.95rem;
     color: #444;
     display: -webkit-box;
@@ -425,7 +426,7 @@ body {
     text-overflow: ellipsis;
 }
 
-.tasks .badge-estado {
+.main-tasks .badge-estado {
     padding: 5px 12px;
     border-radius: 12px;
     font-size: 0.8rem;
@@ -449,7 +450,7 @@ body {
     color: #1976d2;
 }
 
-.tasks .autor {
+.main-tasks .autor {
     font-size: 0.85rem;
     color: #888;
     margin-top: 10px;
@@ -588,6 +589,7 @@ body {
     flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 100px;
+    min-height: 40vh;
 }
 
 .listado-comunidades ul {

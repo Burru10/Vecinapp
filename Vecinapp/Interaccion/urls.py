@@ -3,8 +3,7 @@ from .views import bandeja_mensajes, conversacion, actualizar_bandeja, notificac
 
 urlpatterns = [
     path('mensajes/<int:comunidad_id>/', bandeja_mensajes, name='mensajes'),
-
-    path('chat/<int:usuario_id>/', conversacion, name='conversacion'),
+    path('mensajes/<int:comunidad_id>/chat/<int:usuario_id>/', conversacion, name='conversacion'),
 
     path('bandeja-ajax/<int:comunidad_id>/', actualizar_bandeja, name='actualizar_bandeja'),
     

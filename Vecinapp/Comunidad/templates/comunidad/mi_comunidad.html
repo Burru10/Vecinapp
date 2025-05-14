@@ -4,7 +4,6 @@
 {% block content %}
 
 
-
 <div class="container" style="padding-top: 150px;">
     <a class="text-start mb-5" href="{% url 'comunidad' %}" style="text-decoration: none; color: rgb(39, 196, 196);"><i
             class="bi bi-arrow-left"></i> Volver atrás</a>
@@ -39,7 +38,7 @@
 
 
 
-<div class="container tasks">
+<div class="container main-tasks py-5">
     {% if publicaciones %}
     <div class="row justify-content-center">
         {% for pub in publicaciones %}

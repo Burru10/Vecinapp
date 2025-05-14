@@ -1,5 +1,5 @@
 {% for item in datos_usuarios %}
-<a href="{% url 'conversacion' item.usuario.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center usuario-chat">
+<a href="{% url 'conversacion' comunidad.id item.usuario.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center usuario-chat">
     <div class="d-flex align-items-center">
         <div class="avatar">{{ item.usuario.first_name|slice:":1" }}{{ item.usuario.last_name|slice:":1" }}</div>
         <div>
